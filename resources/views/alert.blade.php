@@ -4,7 +4,7 @@
      role="alert">
 
     @istrue($dismissible)
-    <button type="button" class="close" data-dismiss="alert" aria-label="{{ trans('bs.alert.close') }}">
+    <button type="button" class="close" data-dismiss="alert" aria-label="{{ trans('bs::components.alert.close') }}">
         <span aria-hidden="true">&times;</span>
     </button>
     @endistrue

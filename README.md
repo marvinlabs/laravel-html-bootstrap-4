@@ -46,11 +46,27 @@ Depending on the component, you will either need to call some methods or use Bla
 
 ### Blade components
 
+Components based on Blade can fully be overridden. You will need to publish the package views to 
+`resources/views/vendor/bs` with the command:
+
+```bash
+php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServiceProvider" --tag="views"
+``` 
+
 - [Alerts](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/alert.blade.php)
 
 ### Programmatic calls
 
 - [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
+
+## Translations
+
+Translations can fully be overridden. You will need to publish the package language files to 
+`resources/lang/vendor/bs` with the command:
+
+```bash
+php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServiceProvider" --tag="lang"
+``` 
       
 ## Changelog
 

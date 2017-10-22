@@ -18,12 +18,17 @@ class BootstrapServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'bs');
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'bs');
 
         if ($this->app->runningInConsole())
         {
             $this->publishes([
                 __DIR__ . '/../../resources/views' => resource_path('views/vendor/bs'),
             ], 'views');
+
+            $this->publishes([
+                __DIR__ . '/../../resources/lang' => resource_path('lang/vendor/bs'),
+            ], 'lang');
         }
     }
 
