@@ -18,7 +18,8 @@
     ],
     "require" : {
         "php" : "^7.0",
-        "spatie/laravel-html" : "~2.9.0"
+        "spatie/laravel-html" : "~2.9.0",
+        "appstract/laravel-blade-directives" : "^0.2"
     },
     "autoload" : {
         "psr-4" : {
