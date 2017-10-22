@@ -1,0 +1,52 @@
+{
+    "name" : "marvinlabs/laravel-html-bootstrap-4",
+    "description" : "A fluent html builder for Font Awesome icons",
+    "keywords" : [
+        "marvinlabs",
+        "bootstrap-4",
+        "html"
+    ],
+    "homepage" : "https://github.com/marvinlabs/laravel-html-bootstrap-4",
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name" : "Vincent Mimoun-Prat",
+            "email" : "contact@vincentprat.info",
+            "homepage" : "https://vincentprat.info",
+            "role" : "Developer"
+        }
+    ],
+    "require" : {
+        "php" : "^7.0",
+        "spatie/laravel-html" : "~2.9.0"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "MarvinLabs\\Html\\Bootstrap\\" : "src/Bootstrap"
+        },
+        "files" : [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "MarvinLabs\\Html\\Bootstrap\\Tests\\" : "tests"
+        }
+    },
+    "scripts" : {
+        "test" : "vendor/bin/phpunit"
+    },
+    "config" : {
+        "sort-packages" : true
+    },
+    "extra" : {
+        "laravel" : {
+            "providers" : [
+                "MarvinLabs\\Html\\Bootstrap\\BootstrapServiceProvider"
+            ],
+            "aliases" : {
+                "FA" : "MarvinLabs\\Html\\Bootstrap\\Facades\\Bootstrap"
+            }
+        }
+    }
+}
