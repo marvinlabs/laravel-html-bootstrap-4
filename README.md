@@ -46,11 +46,11 @@ Depending on the component, you will either need to call some methods or use Bla
 
 ### Blade components
 
-- [Alerts](/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/alert.blade.php)
+- [Alerts](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/alert.blade.php)
 
 ### Programmatic calls
 
-- [Badges](/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
+- [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
       
 ## Changelog
 
