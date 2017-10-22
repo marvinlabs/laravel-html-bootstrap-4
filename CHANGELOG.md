@@ -1,10 +1,9 @@
 # Changelog
 
-All notable changes to `marvinlabs/laravel-html-font-awesome` will be documented in this file.
+All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
-## 1.0.0 - 2017-10-21
+## 0.0.1 - 2017-
 
 - Initial release
-- Build icons
-- Build stacks
-- Build the maxCDN link (latest FA version, minified) 
+- Alerts component 
+- Scripts and styles from CDN
