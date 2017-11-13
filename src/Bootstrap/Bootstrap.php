@@ -2,6 +2,8 @@
 
 namespace MarvinLabs\Html\Bootstrap;
 
+use MarvinLabs\Html\Bootstrap\Traits\BuildsForms;
+use MarvinLabs\Html\Bootstrap\Traits\BuildsSimpleComponents;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsStylesAndScripts;
 use Spatie\Html\Html;
 
@@ -15,7 +17,10 @@ use Spatie\Html\Html;
 class Bootstrap
 {
 
-    use BuildsStylesAndScripts;
+    use BuildsStylesAndScripts, BuildsForms, BuildsSimpleComponents;
+
+    /** @var \Spatie\Html\Html */
+    protected $html;
 
     /**
      * Bootstrap constructor.
