@@ -13,3 +13,19 @@ if ( !function_exists('bs'))
         return app(Bootstrap::class);
     }
 }
+
+if ( !function_exists('data_attributes'))
+{
+
+    /**
+     * @return string
+     */
+    function data_attributes($attrs = [])
+    {
+        return collect($attrs)
+            ->map(function ($value, $key) {
+                return 'data-' . $key . '="' . $value . '"';
+            })
+            ->implode(' ');
+    }
+}
