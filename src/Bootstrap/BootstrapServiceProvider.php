@@ -3,6 +3,12 @@
 namespace MarvinLabs\Html\Bootstrap;
 
 use Illuminate\Support\ServiceProvider;
+use MarvinLabs\Html\Bootstrap\Contracts\FormErrorProvider as FormErrorProviderContract;
+use MarvinLabs\Html\Bootstrap\Contracts\FormState as FormStateContract;
+use MarvinLabs\Html\Bootstrap\Contracts\OldFormInputProvider as OldFormInputProviderContract;
+use MarvinLabs\Html\Bootstrap\Forms\FormErrorProvider;
+use MarvinLabs\Html\Bootstrap\Forms\FormState;
+use MarvinLabs\Html\Bootstrap\Forms\OldFormInputProvider;
 
 /**
  * Class BootstrapServiceProvider
@@ -38,6 +44,9 @@ class BootstrapServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Bootstrap::class);
+        $this->app->singleton(FormErrorProviderContract::class, FormErrorProvider::class);
+        $this->app->singleton(OldFormInputProviderContract::class, OldFormInputProvider::class);
+        $this->app->bind(FormStateContract::class, FormState::class);
     }
 
 }
