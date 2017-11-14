@@ -4,9 +4,12 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
 
 use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
+use MarvinLabs\Html\Bootstrap\Elements\File;
+use MarvinLabs\Html\Bootstrap\Elements\Input;
+use MarvinLabs\Html\Bootstrap\Elements\Select;
+use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
 use Spatie\Html\Elements\Form;
-use Spatie\Html\Elements\Input;
 
 /**
  * @target \MarvinLabs\Html\Bootstrap\Bootstrap
@@ -93,34 +96,96 @@ trait BuildsForms
      * @param string|null $name
      * @param string|null $value
      *
-     * @return \Spatie\Html\Elements\Input
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
      */
-    public function input($type = null, $name = null, $value = null)
+    public function input($type = null, $name = null, $value = null): Input
     {
-        $value = $this->formState->getFieldValue($name, $value);
+        $value = $this->getFieldValue($name, $value);
 
         return Input::create()
-            ->addClass('form-control')
             ->typeIf($type, $type)
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name))
             ->valueIf($value !== null, $value);
     }
 
-    public function submit($text)
+    /**
+     * @param string|null $name
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\File
+     */
+    public function file($name = null): File
     {
-        return $this->html->button($text);
+        return File::create()
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name));
     }
 
     /**
      * @param string|null $name
      * @param string|null $value
      *
-     * @return \Spatie\Html\Elements\Input
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Textarea
+     */
+    public function textarea($name = null, $value = null): Textarea
+    {
+        $value = $this->getFieldValue($name, $value);
+
+        return Textarea::create()
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name))
+            ->valueIf($value !== null, $value);
+    }
+
+    /**
+     * @param string|null          $name
+     * @param array|iterable       $options
+     * @param string|iterable|null $value
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Select
+     */
+    public function select($name = null, $options = [], $value = null): Select
+    {
+        $value = $this->getFieldValue($name, $value);
+
+        return Select::create()
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name))
+            ->options($options)
+            ->valueIf($value !== null, $value);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $value
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
+     */
+    public function text($name = null, $value = null): Input
+    {
+        return $this->input('text', $name, $value);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $value
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
+     */
+    public function email($name = null, $value = null): Input
+    {
+        return $this->input('email', $name, $value);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $value
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
      */
     public function hidden($name = null, $value = null): Input
     {
-        $value = $this->formState->getFieldValue($name, $value);
+        $value = $this->getFieldValue($name, $value);
 
         return Input::create()
             ->type('hidden')
@@ -129,10 +194,24 @@ trait BuildsForms
     }
 
     /**
-     * @return \Spatie\Html\Elements\Input
+     * CSRF token hidden field
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
      */
     public function token(): Input
     {
         return $this->hidden('_token', $this->request->session()->token());
+    }
+
+    public function submit($text)
+    {
+        return $this->html->button($text);
+    }
+
+    private function getFieldValue($name, $default)
+    {
+        return $this->formState !== null
+            ? $this->formState->getFieldValue($name, $default)
+            : $default;
     }
 }
