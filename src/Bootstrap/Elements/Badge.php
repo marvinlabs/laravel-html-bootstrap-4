@@ -23,9 +23,10 @@ class Badge extends BaseElement
      */
     public function link($url)
     {
-        $this->tag = 'a';
+        $element = $this->attribute('href', $url);
+        $element->tag = 'a';
 
-        return $this->attribute('href', $url);
+        return $element;
     }
 
     /**
