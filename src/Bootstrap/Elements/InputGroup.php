@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use Illuminate\Contracts\Support\Htmlable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Span;
 
@@ -14,8 +15,7 @@ use Spatie\Html\Elements\Span;
  */
 class InputGroup extends Div
 {
-    /** @var \Spatie\Html\BaseElement */
-    private $control;
+    use WrapsFormControl;
 
     /** @var bool */
     private $isAssembled = false;
@@ -36,24 +36,6 @@ class InputGroup extends Div
         parent::__construct();
 
         $this->control = $control;
-    }
-
-    /**
-     * @param \Spatie\Html\BaseElement $control
-     *
-     * @return static
-     */
-    public function control($control)
-    {
-        if ($control === null)
-        {
-            return $this;
-        }
-
-        $element = clone $this;
-        $element->control = $control;
-
-        return $element;
     }
 
     /**
@@ -147,6 +129,13 @@ class InputGroup extends Div
         return $element->addClass('input-group');
     }
 
+    /**
+     * Add the child elements corresponding to the given addons
+     *
+     * @param array $addons
+     *
+     * @return static
+     */
     private function assembleAddons($addons)
     {
         if (0 === \count($addons))

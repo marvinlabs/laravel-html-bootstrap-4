@@ -162,10 +162,17 @@ class FormGroup extends Div
         }
 
         // Error messages
-        $error = optional($this->formState)->getFieldError($fieldName);
-        if ($fieldName !== null && !empty($error))
+        if ($this->formState !== null && !$this->formState->shouldHideErrors())
         {
-            $element = $element->addChild(Div::create()->addClass('invalid-feedback')->text($error));
+            $error = $this->formState->getFieldError($fieldName);
+            if ($fieldName !== null && !empty($error))
+            {
+                // We add the d-block class to the feedback due to a bug in beta2
+                // See also: https://github.com/twbs/bootstrap/issues/23454
+                $element = $element->addChild(Div::create()
+                    ->addClass(['invalid-feedback', 'd-block'])
+                    ->text($error));
+            }
         }
 
         return $element->addClass('form-group');

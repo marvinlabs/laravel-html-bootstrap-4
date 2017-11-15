@@ -4,6 +4,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
 
 use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
+use MarvinLabs\Html\Bootstrap\Elements\CheckBox;
 use MarvinLabs\Html\Bootstrap\Elements\File;
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
@@ -33,9 +34,10 @@ trait BuildsForms
      *
      * Valid options are:
      *
-     *   - files  => boolean    Does the form accept files
-     *   - inline => boolean    Shall we render an inline form (Bootstrap specific)
-     *   - model  => mixed      The model to bind to the form
+     *   - files      => bool    Does the form accept files
+     *   - inline     => bool    Shall we render an inline form (Bootstrap specific)
+     *   - model      => mixed   The model to bind to the form
+     *   - hideErrors => bool    Hide field errors
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      * @throws \Exception When trying to open a form before closing the previous one
@@ -49,6 +51,7 @@ trait BuildsForms
         }
         $this->formState = app()->make(FormState::class);
         $this->formState->setModel($options['model'] ?? null);
+        $this->formState->setHideErrors($options['hideErrors'] ?? false);
 
         // Create a form element with sane defaults
         $this->currentForm = Form::create();
@@ -61,7 +64,7 @@ trait BuildsForms
         // On any other method that get, the form needs a CSRF token
         $method = strtoupper($method);
 
-        if (in_array($method, ['DELETE', 'PATCH', 'PUT'], true))
+        if (\in_array($method, ['DELETE', 'PATCH', 'PUT'], true))
         {
             $this->currentForm = $this->currentForm->addChild($this->hidden('_method', $method));
             $method = 'POST';
@@ -169,6 +172,25 @@ trait BuildsForms
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name))
             ->valueIf($value !== null, $value);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $description
+     * @param bool        $isChecked
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\CheckBox
+     */
+    public function checkBox($name = null, $description = null, $isChecked = false): CheckBox
+    {
+        $isChecked = $this->getFieldValue($name, $isChecked);
+        $element = new CheckBox($this->formState);
+
+        return $element
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->description($description)
+            ->checked($isChecked);
     }
 
     /**

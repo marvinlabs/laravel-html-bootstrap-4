@@ -24,7 +24,7 @@ class Input extends BaseInput
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
 
-    /** @var bool  */
+    /** @var bool */
     private $isAssembled = false;
 
     /**
@@ -75,10 +75,21 @@ class Input extends BaseInput
     {
         $this->isAssembled = true;
 
-        $element = $this->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
+        $element = clone $this;
+
+        $type = $this->getAttribute('type', 'text');
+
+        if (\in_array($type, ['radio', 'checkbox'], true))
+        {
+            $element = $element->addClass('custom-control-input');
+        }
+        else
+        {
+            $element = $element->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
+        }
 
         // Add class for fields with error
-        if ($element->formState!==null
+        if ($element->formState !== null
             && $element->formState->hasFieldErrors($element->getAttribute('name')))
         {
             $element = $element->addClass('is-invalid');
