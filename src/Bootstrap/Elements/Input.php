@@ -2,10 +2,10 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableControl;
 use Spatie\Html\Elements\Input as BaseInput;
 
 /**
@@ -16,16 +16,13 @@ use Spatie\Html\Elements\Input as BaseInput;
  */
 class Input extends BaseInput
 {
-    use HasControlSize, CanBeDisabled;
+    use SizableControl, Disablable, Assemblable;
 
     /** @var bool Show the input as plain text (used in conjunction with readonly) */
     private $plainText = false;
 
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
-
-    /** @var bool */
-    private $isAssembled = false;
 
     /**
      * Input constructor.
@@ -54,27 +51,8 @@ class Input extends BaseInput
     }
 
     /** @Override */
-    public function open(): Htmlable
-    {
-        if ($this->isAssembled)
-        {
-            return parent::open();
-        }
-
-        $element = $this->assemble();
-
-        return $element->open();
-    }
-
-    /**
-     * Prepare the element before it gets rendered
-     *
-     * @return static
-     */
     protected function assemble()
     {
-        $this->isAssembled = true;
-
         $element = clone $this;
 
         $type = $this->getAttribute('type', 'text');
@@ -82,6 +60,10 @@ class Input extends BaseInput
         if (\in_array($type, ['radio', 'checkbox'], true))
         {
             $element = $element->addClass('custom-control-input');
+        }
+        else if ($type === 'file')
+        {
+            $element = $element->addClass('custom-file-input');
         }
         else
         {

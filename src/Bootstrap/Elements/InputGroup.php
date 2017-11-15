@@ -2,7 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use Illuminate\Contracts\Support\Htmlable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Span;
@@ -15,10 +15,7 @@ use Spatie\Html\Elements\Span;
  */
 class InputGroup extends Div
 {
-    use WrapsFormControl;
-
-    /** @var bool */
-    private $isAssembled = false;
+    use WrapsFormControl, Assemblable;
 
     /** @var array */
     private $prefixes = [];
@@ -86,29 +83,9 @@ class InputGroup extends Div
         return $element;
     }
 
-
     /** @Override */
-    public function open(): Htmlable
-    {
-        if ($this->isAssembled)
-        {
-            return parent::open();
-        }
-
-        $element = $this->assemble();
-
-        return $element->open();
-    }
-
-    /**
-     * Prepare the element before it gets rendered
-     *
-     * @return static
-     */
     protected function assemble()
     {
-        $this->isAssembled = true;
-
         if ($this->control === null)
         {
             return $this;

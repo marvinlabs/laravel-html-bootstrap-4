@@ -2,7 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use Illuminate\Contracts\Support\Htmlable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Label;
 use Spatie\Html\Elements\Span;
@@ -21,13 +21,10 @@ use Spatie\Html\Elements\Span;
  */
 class CheckBox extends Label
 {
-    use WrapsFormControl;
+    use WrapsFormControl, Assemblable;
 
     /** @var  string|null */
     private $description;
-
-    /** @var bool */
-    private $isAssembled = false;
 
     /**
      * FormGroup constructor.
@@ -69,45 +66,9 @@ class CheckBox extends Label
         return $element;
     }
 
-    /**
-     * @param string|null $name
-     *
-     * @return static
-     */
-    public function name($name)
-    {
-        $element = clone $this;
-        $element = $element->for($name);
-
-        $element->control = $this->control
-            ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name));
-
-        return $element;
-    }
-
     /** @Override */
-    public function open(): Htmlable
-    {
-        if ($this->isAssembled)
-        {
-            return parent::open();
-        }
-
-        $element = $this->assemble();
-
-        return $element->open();
-    }
-
-    /**
-     * Prepare the element before it gets rendered
-     *
-     * @return static
-     */
     protected function assemble()
     {
-        $this->isAssembled = true;
-
         if ($this->control === null)
         {
             return $this;

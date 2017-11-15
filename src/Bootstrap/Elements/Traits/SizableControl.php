@@ -12,7 +12,7 @@ use RuntimeException;
  *
  *          Set the classes which influence a form field height
  */
-trait HasControlSize
+trait SizableControl
 {
 
     /**
@@ -26,7 +26,7 @@ trait HasControlSize
     private function size($size)
     {
         $size = strtolower($size);
-        if ( !in_array($size, ['lg', 'sm'], true))
+        if ( !\in_array($size, ['lg', 'sm'], true))
         {
             throw new RuntimeException('Invalid control size');
         }

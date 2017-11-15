@@ -2,10 +2,10 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableControl;
 use Spatie\Html\Elements\TextArea as BaseTextArea;
 
 /**
@@ -16,16 +16,13 @@ use Spatie\Html\Elements\TextArea as BaseTextArea;
  */
 class TextArea extends BaseTextArea
 {
-    use HasControlSize, CanBeDisabled;
+    use SizableControl, Disablable, Assemblable;
 
     /** @var bool Show the input as plain text (used in conjunction with readonly) */
     private $plainText = false;
 
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
-
-    /** @var bool  */
-    private $isAssembled = false;
 
     /**
      * TextArea constructor.
@@ -54,27 +51,8 @@ class TextArea extends BaseTextArea
     }
 
     /** @Override */
-    public function open(): Htmlable
-    {
-        if ($this->isAssembled)
-        {
-            return parent::open();
-        }
-
-        $element = $this->assemble();
-
-        return $element->open();
-    }
-
-    /**
-     * Prepare the element before it gets rendered
-     *
-     * @return static
-     */
     protected function assemble()
     {
-        $this->isAssembled = true;
-
         $element = $this->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
 
         // Add class for fields with error

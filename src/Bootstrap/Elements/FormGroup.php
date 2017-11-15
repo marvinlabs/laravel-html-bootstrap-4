@@ -3,7 +3,8 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 
-use Illuminate\Contracts\Support\Htmlable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 
@@ -15,6 +16,8 @@ use Spatie\Html\Elements\Label;
  */
 class FormGroup extends Div
 {
+    use WrapsFormControl, Assemblable;
+
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
 
@@ -23,12 +26,6 @@ class FormGroup extends Div
 
     /** @var  \Spatie\Html\BaseElement|null */
     private $helpText;
-
-    /** @var \Spatie\Html\BaseElement */
-    private $control;
-
-    /** @var bool */
-    private $isAssembled = false;
 
     /**
      * FormGroup constructor.
@@ -42,24 +39,6 @@ class FormGroup extends Div
 
         $this->formState = $formState;
         $this->control = $control;
-    }
-
-    /**
-     * @param \Spatie\Html\BaseElement $control
-     *
-     * @return static
-     */
-    public function control($control)
-    {
-        if ($control === null)
-        {
-            return $this;
-        }
-
-        $element = clone $this;
-        $element->control = $control;
-
-        return $element;
     }
 
     /**
@@ -110,27 +89,8 @@ class FormGroup extends Div
     }
 
     /** @Override */
-    public function open(): Htmlable
-    {
-        if ($this->isAssembled)
-        {
-            return parent::open();
-        }
-
-        $element = $this->assemble();
-
-        return $element->open();
-    }
-
-    /**
-     * Prepare the element before it gets rendered
-     *
-     * @return static
-     */
     protected function assemble()
     {
-        $this->isAssembled = true;
-
         if ($this->control === null)
         {
             return $this;
