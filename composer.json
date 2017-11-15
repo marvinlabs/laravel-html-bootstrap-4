@@ -46,7 +46,7 @@
                 "MarvinLabs\\Html\\Bootstrap\\BootstrapServiceProvider"
             ],
             "aliases" : {
-                "FA" : "MarvinLabs\\Html\\Bootstrap\\Facades\\Bootstrap"
+                "BS" : "MarvinLabs\\Html\\Bootstrap\\Facades\\Bootstrap"
             }
         }
     }
