@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Traits;
 
+use MarvinLabs\Html\Bootstrap\Elements\A;
 use MarvinLabs\Html\Bootstrap\Elements\Badge;
 
 /**
@@ -13,13 +14,26 @@ trait BuildsSimpleComponents
     /**
      * Small count and labeling component.
      *
-     * @param string $type Type of badge (primary, secondary, error, etc.)
+     * @param string $variant Type of badge (primary, secondary, error, etc.)
      *
      * @return Badge
      */
-    public function badge($type = 'secondary')
+    public function badge($variant = 'secondary'): Badge
     {
-        return Badge::create()->type($type);
+        return Badge::create()->variant($variant);
+    }
+
+    /**
+     * @param string|null $href
+     * @param null        $contents
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\A
+     */
+    public function a($href = null, $contents = null): A
+    {
+        return A::create()
+            ->attributeIf($href, 'href', $href)
+            ->html($contents);
     }
 
 }

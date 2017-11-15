@@ -30,17 +30,15 @@ class Badge extends BaseElement
     }
 
     /**
-     * Set the type of the badge.
+     * Set the variant of the badge.
      *
-     * @param string $type primary, secondary, error, etc.
+     * @param string $variant primary, secondary, error, etc.
      *
      * @return static
-     *
-     * @throws \InvalidArgumentException
      */
-    public function type($type = 'secondary')
+    public function variant($variant = 'secondary')
     {
-        return $this->addClass(['badge', "badge-{$type}"]);
+        return $this->addClass(['badge', "badge-{$variant}"]);
     }
 
     /**

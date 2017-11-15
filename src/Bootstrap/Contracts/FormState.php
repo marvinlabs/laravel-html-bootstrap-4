@@ -16,5 +16,11 @@ interface FormState
 
     public function getFieldErrors($name);
 
+    public function hasFieldErrors($name): bool;
+
     public function getFieldError($name);
+
+    public function setHideErrors($shouldHideErrors);
+
+    public function shouldHideErrors(): bool;
 }

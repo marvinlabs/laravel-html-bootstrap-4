@@ -2,8 +2,10 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
+use MarvinLabs\Html\Bootstrap\Contracts\FormState;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableControl;
 use Spatie\Html\Elements\Input as BaseInput;
 
 /**
@@ -14,10 +16,24 @@ use Spatie\Html\Elements\Input as BaseInput;
  */
 class Input extends BaseInput
 {
-    use HasControlSize, CanBeDisabled;
+    use SizableControl, Disablable, Assemblable;
 
     /** @var bool Show the input as plain text (used in conjunction with readonly) */
     private $plainText = false;
+
+    /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
+    private $formState;
+
+    /**
+     * Input constructor.
+     *
+     * @param FormState $formState
+     */
+    public function __construct($formState)
+    {
+        parent::__construct();
+        $this->formState = $formState;
+    }
 
     /**
      * Make the input read only
@@ -35,20 +51,32 @@ class Input extends BaseInput
     }
 
     /** @Override */
-    public function open()
+    protected function assemble()
     {
-        // Set the control classes if necessary. This is required to render plain text input correctly.
-        // To avoid infinite recursion, we will check if we already have those classes in our attributes.
-        $classes = explode(' ', $this->getAttribute('class', []));
-        if (in_array('form-control', $classes, true)
-            || in_array('form-control-plaintext', $classes, true))
+        $element = clone $this;
+
+        $type = $this->getAttribute('type', 'text');
+
+        if (\in_array($type, ['radio', 'checkbox'], true))
         {
-            return parent::open();
+            $element = $element->addClass('custom-control-input');
+        }
+        else if ($type === 'file')
+        {
+            $element = $element->addClass('custom-file-input');
+        }
+        else
+        {
+            $element = $element->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
         }
 
-        // Add the classes conditionally, then render that element
-        $element = $this->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
+        // Add class for fields with error
+        if ($element->formState !== null
+            && $element->formState->hasFieldErrors($element->getAttribute('name')))
+        {
+            $element = $element->addClass('is-invalid');
+        }
 
-        return $element->open();
+        return $element;
     }
 }

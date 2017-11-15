@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Forms;
 
 use Illuminate\Session\Store;
+use Illuminate\Support\MessageBag;
 use MarvinLabs\Html\Bootstrap\Contracts\FormErrorProvider as FormErrorProviderContract;
 
 /**
@@ -16,6 +17,9 @@ class FormErrorProvider implements FormErrorProviderContract
     /** @var \Illuminate\Session\Store */
     private $session;
 
+    /** @var MessageBag */
+    private $errors;
+
     /**
      * SessionOldInputProvider constructor.
      *
@@ -28,12 +32,12 @@ class FormErrorProvider implements FormErrorProviderContract
 
     public function all($name)
     {
-        return optional($this->getErrors())->all($name) ?? null;
+        return $this->getErrors()->get($name) ?? [];
     }
 
     public function first($name)
     {
-        return optional($this->getErrors())->first($name) ?? null;
+        return $this->getErrors()->first($name);
     }
 
     protected function hasErrors()
@@ -43,6 +47,13 @@ class FormErrorProvider implements FormErrorProviderContract
 
     protected function getErrors()
     {
-        return $this->hasErrors() ? $this->session->get('errors') : null;
+        if ($this->errors === null)
+        {
+            $this->errors = $this->hasErrors()
+                ? $this->session->get('errors')
+                : new MessageBag();
+        }
+
+        return $this->errors;
     }
 }

@@ -54,3 +54,35 @@ if ( !function_exists('field_name_to_id'))
         return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $name);
     }
 }
+
+if ( !function_exists('in_array_any'))
+{
+    /**
+     * Check if any of the needles exist within the haystack
+     *
+     * @param array $needles
+     * @param array $haystack
+     *
+     * @return bool
+     */
+    function in_array_any($needles, $haystack) {
+        return (bool) array_intersect($needles, $haystack);
+    }
+}
+
+if ( !function_exists('in_array_all'))
+{
+
+    /**
+     * Check if all needles exist within the haystack
+     *
+     * @param array $needles
+     * @param array $haystack
+     *
+     * @return bool
+     */
+    function in_array_all($needles, $haystack) {
+        return !array_diff($needles, $haystack);
+    }
+}
+

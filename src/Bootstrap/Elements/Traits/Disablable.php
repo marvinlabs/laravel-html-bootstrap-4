@@ -10,7 +10,7 @@ namespace MarvinLabs\Html\Bootstrap\Elements\Traits;
  *
  *          Control can be disabled
  */
-trait CanBeDisabled
+trait Disablable
 {
 
     /**

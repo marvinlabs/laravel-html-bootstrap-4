@@ -22,6 +22,9 @@ class FormState implements FormStateContract
     /** @var mixed */
     private $model;
 
+    /** @var bool */
+    private $shouldHideErrors;
+
     /**
      * Bootstrap constructor.
      *
@@ -32,6 +35,7 @@ class FormState implements FormStateContract
     {
         $this->oldInput = $oldInput;
         $this->errors = $errors;
+        $this->shouldHideErrors = false;
     }
 
     public function setModel($model)
@@ -51,6 +55,13 @@ class FormState implements FormStateContract
         return $this->oldInput->get($name, $default);
     }
 
+    public function hasFieldErrors($name): bool
+    {
+        $all = $this->errors->all($name);
+
+        return !empty($all);
+    }
+
     public function getFieldErrors($name)
     {
         return $this->errors->all($name);
@@ -59,5 +70,15 @@ class FormState implements FormStateContract
     public function getFieldError($name)
     {
         return $this->errors->first($name);
+    }
+
+    public function setHideErrors($shouldHideErrors)
+    {
+        $this->shouldHideErrors = $shouldHideErrors;
+    }
+
+    public function shouldHideErrors(): bool
+    {
+        return $this->shouldHideErrors;
     }
 }
