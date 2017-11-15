@@ -5,6 +5,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
 use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\CheckBox;
+use MarvinLabs\Html\Bootstrap\Elements\CustomFile;
 use MarvinLabs\Html\Bootstrap\Elements\File;
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
@@ -155,6 +156,20 @@ trait BuildsForms
         return $element
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name));
+    }
+
+    /**
+     * @param string|null $name
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\CustomFile
+     */
+    public function customFile($name = null): CustomFile
+    {
+        $element = new CustomFile($this->formState);
+
+        return $element
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name) . '_wrapper');
     }
 
     /**
