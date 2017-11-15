@@ -109,16 +109,16 @@ trait BuildsForms
 
     /**
      * @param \Spatie\Html\BaseElement|null $control
-     * @param string|array                  $prefixes
-     * @param string|array                  $suffixes
+     * @param string|null                   $prefix
+     * @param string|null                   $suffix
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\InputGroup
      */
-    public function inputGroup($control = null, $prefixes = [], $suffixes = []): InputGroup
+    public function inputGroup($control = null, $prefix = null, $suffix = null): InputGroup
     {
         $element = new InputGroup($control);
 
-        return $element->prefixWith($prefixes)->suffixWith($suffixes);
+        return $element->prefix($prefix)->suffix($suffix);
     }
 
     /**

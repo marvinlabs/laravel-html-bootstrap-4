@@ -57,31 +57,49 @@ class InputGroup extends Div
     }
 
     /**
-     * Make the input read only
+     * Add an addon before the field
      *
-     * @param string|array $prefixes One or more prefixes to append before the field
+     * @param string|\Spatie\Html\BaseElement $prefix      One or more prefixes to append before the field
+     * @param bool                            $isPlainText Is the prefix to be handled like a button, dropdown, etc.
      *
      * @return static
      */
-    public function prefixWith($prefixes)
+    public function prefix($prefix, $isPlainText = true)
     {
+        if ($prefix === null)
+        {
+            return $this;
+        }
+
         $element = clone $this;
-        $element->prefixes = array_merge($this->prefixes, array_wrap($prefixes));
+        $element->prefixes[] = [
+            'content'   => $prefix,
+            'plaintext' => $isPlainText,
+        ];
 
         return $element;
     }
 
     /**
-     * Make the input read only
+     * Add an addon after the field
      *
-     * @param string|array $suffixes One or more prefixes to append before the field
+     * @param string|\Spatie\Html\BaseElement $suffix      One or more suffixes to append before the field
+     * @param bool                            $isPlainText Is the prefix to be handled like a button, dropdown, etc.
      *
      * @return static
      */
-    public function suffixWith($suffixes)
+    public function suffix($suffix, $isPlainText = true)
     {
+        if ($suffix === null)
+        {
+            return $this;
+        }
+
         $element = clone $this;
-        $element->suffixes = array_merge($this->suffixes, array_wrap($suffixes));
+        $element->suffixes[] = [
+            'content'   => $suffix,
+            'plaintext' => $isPlainText,
+        ];
 
         return $element;
     }
@@ -137,11 +155,14 @@ class InputGroup extends Div
         }
 
         return $this->addChildren($addons, function ($token) {
-            $span = Span::create()->addClass('input-group-addon');
+            $span = Span::create()
+                ->addClass($token['plaintext'] ? 'input-group-addon' : 'input-group-btn');
 
-            return \is_string($token)
-                ? $span->text($token)
-                : $span->addChild($token);
+            $content = $token['content'];
+
+            return \is_string($content)
+                ? $span->text($content)
+                : $span->addChild($content);
         });
     }
 }
