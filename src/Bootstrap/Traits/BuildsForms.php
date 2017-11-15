@@ -4,6 +4,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
 
 use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
+use MarvinLabs\Html\Bootstrap\Elements\Button;
 use MarvinLabs\Html\Bootstrap\Elements\CheckBox;
 use MarvinLabs\Html\Bootstrap\Elements\CustomFile;
 use MarvinLabs\Html\Bootstrap\Elements\File;
@@ -276,11 +277,36 @@ trait BuildsForms
         return $this->hidden('_token', $this->request->session()->token());
     }
 
-    public function submit($text)
+    /**
+     * @param string|\Spatie\Html\BaseElement $text
+     * @param string                          $variant
+     * @param bool                            $outlined
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Button
+     */
+    public function submit($text, $variant = 'primary', $outlined = false): Button
     {
-        return $this->html->button($text);
+        return $this->button($text, $variant, $outlined)->type('submit');
     }
 
+    /**
+     * @param        $text
+     * @param string $variant
+     * @param bool   $outlined
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Button
+     */
+    public function button($text, $variant = 'secondary', $outlined = false): Button
+    {
+        return Button::create()->variant($variant, $outlined)->text($text);
+    }
+
+    /**
+     * @param string $name
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
     private function getFieldValue($name, $default)
     {
         return $this->formState !== null
