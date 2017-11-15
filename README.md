@@ -58,6 +58,7 @@ php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServic
 ### Programmatic calls
 
 - [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
+- [Forms](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/forms.blade.php)
 
 ## Translations
 
@@ -78,6 +79,7 @@ If you discover any security related issues, please email bonjour@vincentprat.in
 
 ## Credits
 
+- [Adam Wathan](https://github.com/adamwathan) for the bootforms package which has been very helpful until it got dropped
 - [Spatie agency](https://github.com/spatie) for the laravel-html package
 - [Appstract team](https://github.com/appstract) for the laravel-blade-directives package and some BS4 blade components
 
