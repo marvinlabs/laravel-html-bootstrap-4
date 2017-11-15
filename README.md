@@ -58,7 +58,7 @@ php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServic
 ### Programmatic calls
 
 - [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
-- [Forms](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/forms.blade.php)
+- [Forms](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/form.blade.php)
 
 ## Translations
 
