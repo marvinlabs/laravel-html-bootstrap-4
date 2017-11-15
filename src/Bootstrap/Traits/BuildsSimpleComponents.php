@@ -13,13 +13,13 @@ trait BuildsSimpleComponents
     /**
      * Small count and labeling component.
      *
-     * @param string $type Type of badge (primary, secondary, error, etc.)
+     * @param string $variant Type of badge (primary, secondary, error, etc.)
      *
      * @return Badge
      */
-    public function badge($type = 'secondary')
+    public function badge($variant = 'secondary'): Badge
     {
-        return Badge::create()->type($type);
+        return Badge::create()->variant($variant);
     }
 
 }
