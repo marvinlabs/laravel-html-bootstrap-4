@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
@@ -22,6 +23,9 @@ class Input extends BaseInput
 
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
+
+    /** @var bool  */
+    private $isAssembled = false;
 
     /**
      * Input constructor.
@@ -50,17 +54,27 @@ class Input extends BaseInput
     }
 
     /** @Override */
-    public function open()
+    public function open(): Htmlable
     {
-        // Set the control classes if necessary. This is required to render plain text input correctly.
-        // To avoid infinite recursion, we will check if we already have those classes in our attributes.
-        $classes = explode(' ', $this->getAttribute('class', []));
-        if (in_array_any(['form-control', 'form-control-plaintext'], $classes))
+        if ($this->isAssembled)
         {
             return parent::open();
         }
 
-        // Add the classes conditionally, then render that element
+        $element = $this->assemble();
+
+        return $element->open();
+    }
+
+    /**
+     * Prepare the element before it gets rendered
+     *
+     * @return static
+     */
+    protected function assemble()
+    {
+        $this->isAssembled = true;
+
         $element = $this->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
 
         // Add class for fields with error
@@ -70,6 +84,6 @@ class Input extends BaseInput
             $element = $element->addClass('is-invalid');
         }
 
-        return $element->open();
+        return $element;
     }
 }

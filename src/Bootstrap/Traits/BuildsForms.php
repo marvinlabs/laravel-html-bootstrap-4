@@ -7,6 +7,7 @@ use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\File;
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
+use MarvinLabs\Html\Bootstrap\Elements\InputGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
@@ -93,17 +94,31 @@ trait BuildsForms
     }
 
     /**
-     * @param \Spatie\Html\BaseElement $control
-     * @param string|null              $label
-     * @param string|null              $helpText
+     * @param \Spatie\Html\BaseElement|null $control
+     * @param string|null                   $label
+     * @param string|null                   $helpText
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\FormGroup
      */
-    public function formGroup($control, $label = null, $helpText = null): FormGroup
+    public function formGroup($control = null, $label = null, $helpText = null): FormGroup
     {
-        $element = new FormGroup($this->formState, $control, $label);
+        $element = new FormGroup($this->formState, $control);
 
-        return $element->helpText($helpText);
+        return $element->helpText($helpText)->label($label);
+    }
+
+    /**
+     * @param \Spatie\Html\BaseElement|null $control
+     * @param string|array                  $prefixes
+     * @param string|array                  $suffixes
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\InputGroup
+     */
+    public function inputGroup($control = null, $prefixes = [], $suffixes = []): InputGroup
+    {
+        $element = new InputGroup($control);
+
+        return $element->prefixWith($prefixes)->suffixWith($suffixes);
     }
 
     /**

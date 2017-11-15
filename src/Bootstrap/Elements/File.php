@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
@@ -20,6 +21,9 @@ class File extends BaseFile
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
 
+    /** @var bool  */
+    private $isAssembled = false;
+
     /**
      * File constructor.
      *
@@ -32,17 +36,27 @@ class File extends BaseFile
     }
 
     /** @Override */
-    public function open()
+    public function open(): Htmlable
     {
-        // Set the control class if necessary.
-        // To avoid infinite recursion, we will check if we already have those classes in our attributes.
-        $classes = explode(' ', $this->getAttribute('class', []));
-        if (in_array('form-control-file', $classes, true))
+        if ($this->isAssembled)
         {
             return parent::open();
         }
 
-        // Add the class, then render that element
+        $element = $this->assemble();
+
+        return $element->open();
+    }
+
+    /**
+     * Prepare the element before it gets rendered
+     *
+     * @return static
+     */
+    protected function assemble()
+    {
+        $this->isAssembled = true;
+
         $element = $this->addClass('form-control-file');
 
         // Add class for fields with error
@@ -51,7 +65,7 @@ class File extends BaseFile
             $element = $element->addClass('is-invalid');
         }
 
-        return $element->open();
+        return $element;
     }
 
 }

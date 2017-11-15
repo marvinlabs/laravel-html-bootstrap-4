@@ -7,39 +7,38 @@ use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use Spatie\Html\BaseElement;
 use Spatie\Html\Elements\Div;
+use Spatie\Html\Elements\Label;
 
 class FormGroup extends Div
 {
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
 
-    /** @var  string|null */
+    /** @var  \Spatie\Html\Elements\Label|null */
     private $label;
 
-    /** @var  string|null */
+    /** @var  \Spatie\Html\BaseElement|null */
     private $helpText;
 
     /** @var \Spatie\Html\BaseElement */
     private $control;
 
+    /** @var bool */
     private $isAssembled = false;
 
     /**
      * FormGroup constructor.
      *
      * @param \MarvinLabs\Html\Bootstrap\Contracts\FormState $formState
-     * @param null|string                                    $label
      * @param \Spatie\Html\BaseElement                       $control
      */
-    public function __construct(FormState $formState, BaseElement $control = null, $label = null)
+    public function __construct($formState, $control = null)
     {
         parent::__construct();
 
         $this->formState = $formState;
-        $this->label = $label;
         $this->control = $control;
     }
-
 
     /**
      * @param \Spatie\Html\BaseElement $control
@@ -55,6 +54,28 @@ class FormGroup extends Div
 
         $element = clone $this;
         $element->control = $control;
+
+        return $element;
+    }
+
+    /**
+     * @param string $text
+     * @param bool   $screenReaderOnly
+     *
+     * @return static
+     */
+    public function label($text, $screenReaderOnly = false)
+    {
+        if ($text === null)
+        {
+            return $this;
+        }
+
+        $element = clone $this;
+        $element->label = Label::create()
+            ->text($text)
+            ->addClass('col-form-label')
+            ->addClassIf($screenReaderOnly, 'sr-only');
 
         return $element;
     }
@@ -87,7 +108,8 @@ class FormGroup extends Div
     /** @Override */
     public function open(): Htmlable
     {
-        if ($this->isAssembled) {
+        if ($this->isAssembled)
+        {
             return parent::open();
         }
 
@@ -96,9 +118,14 @@ class FormGroup extends Div
         return $element->open();
     }
 
-    private function assemble()
+    /**
+     * Prepare the element before it gets rendered
+     *
+     * @return static
+     */
+    protected function assemble()
     {
-        $this->isAssembled  = true;
+        $this->isAssembled = true;
 
         if ($this->control === null)
         {
@@ -108,17 +135,26 @@ class FormGroup extends Div
         $element = clone $this;
 
         $fieldName = $element->control->getAttribute('name');
+        $fieldId = field_name_to_id($fieldName);
+        $helpTextId = field_name_to_id($fieldName) . '_helptext';
+
+        // Label
+        if (null !== $element->label)
+        {
+            $element = $element->addChild($element->label->for($fieldId));
+        }
 
         // Control
         if ($this->control !== null)
         {
-            $element = $element->addChild($this->control);
+            $element = $element->addChild(
+                $this->control->attributeIf($this->helpText !== null, 'aria-describedby', $helpTextId));
         }
 
         // Help text
         if ($this->helpText !== null)
         {
-            $element = $element->addChild($this->helpText);
+            $element = $element->addChild($this->helpText->id($helpTextId));
         }
 
         // Error messages
