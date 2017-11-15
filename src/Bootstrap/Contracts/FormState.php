@@ -16,5 +16,7 @@ interface FormState
 
     public function getFieldErrors($name);
 
+    public function hasFieldErrors($name);
+
     public function getFieldError($name);
 }

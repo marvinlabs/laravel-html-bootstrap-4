@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
 use Spatie\Html\Elements\TextArea as BaseTextArea;
@@ -18,6 +19,20 @@ class TextArea extends BaseTextArea
 
     /** @var bool Show the input as plain text (used in conjunction with readonly) */
     private $plainText = false;
+
+    /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
+    private $formState;
+
+    /**
+     * TextArea constructor.
+     *
+     * @param FormState $formState
+     */
+    public function __construct($formState)
+    {
+        parent::__construct();
+        $this->formState = $formState;
+    }
 
     /**
      * Make the input read only
@@ -48,6 +63,12 @@ class TextArea extends BaseTextArea
 
         // Add the classes conditionally, then render that element
         $element = $this->addClass($this->plainText ? 'form-control-plaintext' : 'form-control');
+
+        // Add class for fields with error
+        if (optional($this->formState)->hasFieldErrors($this->getAttribute('name')))
+        {
+            $element = $element->addClass('is-invalid');
+        }
 
         return $element->open();
     }

@@ -5,6 +5,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
 use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\File;
+use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
@@ -92,6 +93,20 @@ trait BuildsForms
     }
 
     /**
+     * @param \Spatie\Html\BaseElement $control
+     * @param string|null              $label
+     * @param string|null              $helpText
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\FormGroup
+     */
+    public function formGroup($control, $label = null, $helpText = null): FormGroup
+    {
+        $element = new FormGroup($this->formState, $control, $label);
+
+        return $element->helpText($helpText);
+    }
+
+    /**
      * @param string|null $type
      * @param string|null $name
      * @param string|null $value
@@ -101,8 +116,9 @@ trait BuildsForms
     public function input($type = null, $name = null, $value = null): Input
     {
         $value = $this->getFieldValue($name, $value);
+        $element = new Input($this->formState);
 
-        return Input::create()
+        return $element
             ->typeIf($type, $type)
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name))
@@ -116,7 +132,9 @@ trait BuildsForms
      */
     public function file($name = null): File
     {
-        return File::create()
+        $element = new File($this->formState);
+
+        return $element
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name));
     }
@@ -130,8 +148,9 @@ trait BuildsForms
     public function textarea($name = null, $value = null): Textarea
     {
         $value = $this->getFieldValue($name, $value);
+        $element = new TextArea($this->formState);
 
-        return Textarea::create()
+        return $element
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name))
             ->valueIf($value !== null, $value);
@@ -147,8 +166,9 @@ trait BuildsForms
     public function select($name = null, $options = [], $value = null): Select
     {
         $value = $this->getFieldValue($name, $value);
+        $element = new Select($this->formState);
 
-        return Select::create()
+        return $element
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name))
             ->options($options)
@@ -186,8 +206,9 @@ trait BuildsForms
     public function hidden($name = null, $value = null): Input
     {
         $value = $this->getFieldValue($name, $value);
+        $element = new Input($this->formState);
 
-        return Input::create()
+        return $element
             ->type('hidden')
             ->nameIf($name, $name)
             ->valueIf($value !== null, $value);

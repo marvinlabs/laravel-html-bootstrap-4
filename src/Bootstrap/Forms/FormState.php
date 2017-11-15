@@ -51,6 +51,13 @@ class FormState implements FormStateContract
         return $this->oldInput->get($name, $default);
     }
 
+    public function hasFieldErrors($name): bool
+    {
+        $all = $this->errors->all($name);
+
+        return !empty($all);
+    }
+
     public function getFieldErrors($name)
     {
         return $this->errors->all($name);

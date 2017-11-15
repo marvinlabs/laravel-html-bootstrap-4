@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\CanBeDisabled;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\HasControlSize;
 use Spatie\Html\Elements\Select as BaseSelect;
@@ -16,6 +17,20 @@ class Select extends BaseSelect
 {
     use HasControlSize, CanBeDisabled;
 
+    /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
+    private $formState;
+
+    /**
+     * Select constructor.
+     *
+     * @param FormState $formState
+     */
+    public function __construct($formState)
+    {
+        parent::__construct();
+        $this->formState = $formState;
+    }
+
     /** @Override */
     public function open()
     {
@@ -29,6 +44,12 @@ class Select extends BaseSelect
 
         // Add the class, then render that element
         $element = $this->addClass('form-control');
+
+        // Add class for fields with error
+        if (optional($this->formState)->hasFieldErrors($this->getAttribute('name')))
+        {
+            $element = $element->addClass('is-invalid');
+        }
 
         return $element->open();
     }
