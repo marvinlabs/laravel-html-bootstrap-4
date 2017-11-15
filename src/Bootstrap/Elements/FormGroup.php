@@ -4,11 +4,15 @@ namespace MarvinLabs\Html\Bootstrap\Elements;
 
 
 use Illuminate\Contracts\Support\Htmlable;
-use MarvinLabs\Html\Bootstrap\Contracts\FormState;
-use Spatie\Html\BaseElement;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 
+/**
+ * Class FormGroup
+ * @package MarvinLabs\Html\Bootstrap\Elements
+ *
+ *          Wraps a control, label, errors on that field, etc.
+ */
 class FormGroup extends Div
 {
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */

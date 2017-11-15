@@ -10,7 +10,7 @@ use Spatie\Html\Elements\Span;
  * Class InputGroup
  * @package MarvinLabs\Html\Bootstrap\Elements
  *
- *          InputGroup element with some BS4 helpers
+ *          Allows adding stuff on either side of a textual input field
  */
 class InputGroup extends Div
 {
