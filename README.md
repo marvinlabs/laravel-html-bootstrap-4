@@ -54,6 +54,7 @@ php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServic
 ``` 
 
 - [Alerts](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/alert.blade.php)
+- [Jumbotron](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/jumbotron.blade.php)
 
 ### Programmatic calls
 
