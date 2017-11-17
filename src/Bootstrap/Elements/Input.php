@@ -5,7 +5,7 @@ namespace MarvinLabs\Html\Bootstrap\Elements;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableControl;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
 use Spatie\Html\Elements\Input as BaseInput;
 
 /**
@@ -16,7 +16,10 @@ use Spatie\Html\Elements\Input as BaseInput;
  */
 class Input extends BaseInput
 {
-    use SizableControl, Disablable, Assemblable;
+    use SizableComponent, Disablable, Assemblable;
+
+    // Used by SizableComponent
+    protected $sizableClass = 'form-control';
 
     /** @var bool Show the input as plain text (used in conjunction with readonly) */
     private $plainText = false;
