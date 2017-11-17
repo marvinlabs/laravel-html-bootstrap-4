@@ -12,8 +12,11 @@ use RuntimeException;
  *
  *          Set the classes which influence a form field height
  */
-trait SizableControl
+trait SizableComponent
 {
+
+    /** @var string $sizableClass Classes using this trait must override this variable */
+    // protected $sizableClass;
 
     /**
      * Set the control size
@@ -23,15 +26,20 @@ trait SizableControl
      * @return static
      * @throws \RuntimeException When $size does not have a valid value
      */
-    private function size($size)
+    protected function size($size)
     {
+        if ( ! property_exists($this, 'sizableClass'))
+        {
+            throw new RuntimeException('You must specify the sizable CSS class');
+        }
+
         $size = strtolower($size);
         if ( !\in_array($size, ['lg', 'sm'], true))
         {
-            throw new RuntimeException('Invalid control size');
+            throw new RuntimeException('Invalid size');
         }
 
-        return $this->addClass("form-control-$size");
+        return $this->addClass("{$this->sizableClass}-$size");
     }
 
     /**

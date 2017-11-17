@@ -2,11 +2,10 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableControl;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
 use Spatie\Html\Elements\File as BaseFile;
 
 /**
@@ -17,7 +16,7 @@ use Spatie\Html\Elements\File as BaseFile;
  */
 class File extends BaseFile
 {
-    use SizableControl, Disablable, Assemblable;
+    use Disablable, Assemblable;
 
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
