@@ -61,6 +61,7 @@ php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServic
 - [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
 - [Buttons](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/button.blade.php)
 - [Forms](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/form.blade.php)
+- [Progress](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/progress.blade.php)
 
 ## Translations
 
