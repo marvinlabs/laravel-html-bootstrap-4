@@ -15,8 +15,8 @@ use RuntimeException;
 trait SizableComponent
 {
 
-    /** @var string Classes using this trait must override this variable */
-    protected $sizableClass;
+    /** @var string $sizableClass Classes using this trait must override this variable */
+    // protected $sizableClass;
 
     /**
      * Set the control size
@@ -28,7 +28,7 @@ trait SizableComponent
      */
     protected function size($size)
     {
-        if ( empty($this->sizableClass))
+        if ( ! property_exists($this, 'sizableClass'))
         {
             throw new RuntimeException('You must specify the sizable CSS class');
         }
