@@ -38,6 +38,28 @@ trait BuildsSimpleComponents
     }
 
     /**
+     * @param string      $number
+     * @param string|null $text
+     *
+     * @return \Spatie\Html\Elements\A
+     */
+    public function tel($number, $text = null)
+    {
+        return $this->a('tel:' . $number, $text);
+    }
+
+    /**
+     * @param string      $email
+     * @param string|null $text
+     *
+     * @return \Spatie\Html\Elements\A
+     */
+    public function mailto($email, $text = null)
+    {
+        return $this->a('mailto:' . $email, $text);
+    }
+
+    /**
      * @return \MarvinLabs\Html\Bootstrap\Elements\Progress
      */
     public function progress(): Progress
