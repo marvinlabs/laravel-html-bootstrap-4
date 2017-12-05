@@ -44,10 +44,11 @@ class FormGroup extends Div
     /**
      * @param string $text
      * @param bool   $screenReaderOnly
+     * @param array  $extraClasses
      *
      * @return static
      */
-    public function label($text, $screenReaderOnly = false)
+    public function label($text, $screenReaderOnly = false, $extraClasses = [])
     {
         if ($text === null)
         {
@@ -57,8 +58,9 @@ class FormGroup extends Div
         $element = clone $this;
         $element->label = Label::create()
             ->text($text)
+            ->addClassIf($screenReaderOnly, 'sr-only')
             ->addClass('col-form-label')
-            ->addClassIf($screenReaderOnly, 'sr-only');
+            ->addClass($extraClasses);
 
         return $element;
     }
@@ -111,8 +113,14 @@ class FormGroup extends Div
         // Control
         if ($this->control !== null)
         {
-            $element = $element->addChild(
-                $this->control->attributeIf($this->helpText !== null, 'aria-describedby', $helpTextId));
+            $childControl = $this->control->attributeIf($this->helpText !== null, 'aria-describedby', $helpTextId);
+
+            if ($this->controlWrapper !== null)
+            {
+                $childControl = $this->controlWrapper->addChild($childControl);
+            }
+
+            $element = $element->addChild($childControl);
         }
 
         // Help text

@@ -14,6 +14,9 @@ trait WrapsFormControl
     /** @var \Spatie\Html\BaseElement */
     private $control;
 
+    /** @var \Spatie\Html\BaseElement */
+    private $controlWrapper = null;
+
     /**
      * For some attributes, return the value of the baking control instead of our own
      *
@@ -63,6 +66,24 @@ trait WrapsFormControl
 
         $element = clone $this;
         $element->control = $control;
+
+        return $element;
+    }
+
+    /**
+     * @param \Spatie\Html\BaseElement $wrapper
+     *
+     * @return static
+     */
+    public function wrapControlIn($wrapper)
+    {
+        if ($wrapper === null)
+        {
+            return $this;
+        }
+
+        $element = clone $this;
+        $element->controlWrapper = $wrapper;
 
         return $element;
     }
