@@ -5,8 +5,7 @@ namespace MarvinLabs\Html\Bootstrap\Elements;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
-use Spatie\Html\Elements\TextArea as BaseTextArea;
+use Spatie\Html\Elements\Textarea as BaseTextArea;
 
 /**
  * Class TextArea
