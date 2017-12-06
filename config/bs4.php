@@ -20,6 +20,10 @@ return [
             'label'           => [],
             'control_wrapper' => ['offset-sm-2', 'col-sm-10'],
         ],
+        'centered' => [
+            'label'           => [],
+            'control_wrapper' => ['text-center', 'col-sm-12'],
+        ],
     ],
 
 ];
