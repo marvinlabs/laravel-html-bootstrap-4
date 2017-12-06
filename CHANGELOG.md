@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 0.5.0 - 2017/12/06
+
+- Simplify horizontal forms with `$formGroup.showAsRow` method
+
 ## 0.4.0 - 2017/12/05
 
 - Some helpers for horizontal forms

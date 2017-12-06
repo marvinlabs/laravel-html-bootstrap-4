@@ -23,6 +23,9 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/bs4.php', 'bs4'
+        );
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'bs');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'bs');
 
@@ -35,6 +38,10 @@ class BootstrapServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../../resources/lang' => resource_path('lang/vendor/bs'),
             ], 'lang');
+
+            $this->publishes([
+                __DIR__ . '/../../config' => resource_path('config'),
+            ], 'config');
         }
     }
 

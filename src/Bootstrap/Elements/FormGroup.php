@@ -90,6 +90,47 @@ class FormGroup extends Div
         return $element;
     }
 
+    /**
+     * Show the group as an horizontal row, using the specified configuration. This method should be called last
+     * when the label and controls are all initialized.
+     *
+     * The row configuration will be taken from config("bs4.form_rows.$rowConfig")
+     *
+     * @param string $rowConfig The reference to the configuration (without prefix).
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\FormGroup|static
+     *
+     * @throws \InvalidArgumentException When the configuration does not exist
+     * @throws \Psr\Container\NotFoundExceptionInterface Problem in dependency retrieval for 'config'
+     * @throws \Psr\Container\ContainerExceptionInterface Problem in dependency retrieval for 'config'
+     */
+    public function showAsRow($rowConfig = 'default')
+    {
+        $rowConfig = app('config')->get("bs4.form_rows.$rowConfig", null);
+        if ($rowConfig === null)
+        {
+            throw new \InvalidArgumentException("Unknown configuration entry: bs4.form_rows.$rowConfig");
+        }
+
+        $element = clone $this;
+
+        // Add a class to ourselves, to the control wrapper and to the label
+        $element = $element->addClass('row');
+
+        if ($element->controlWrapper===null) {
+            $element->controlWrapper = Div::create();
+        }
+        $element->controlWrapper = $element->controlWrapper->addClass($rowConfig['control_wrapper'] ?? []);
+
+        if ($element->label === null)
+        {
+            $element = $element->label('', true);
+        }
+        $element->label = $element->label->addClass($rowConfig['label'] ?? []);
+
+        return $element;
+    }
+
     /** @Override */
     protected function assemble()
     {
