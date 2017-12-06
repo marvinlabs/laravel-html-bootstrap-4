@@ -70,9 +70,11 @@ class FormGroup extends Div
      * @param bool   $small
      * @param bool   $muted
      *
+     * @param null   $extraClass
+     *
      * @return static
      */
-    public function helpText($text, $small = true, $muted = true)
+    public function helpText($text, $small = true, $muted = true, $extraClass = null)
     {
         if ($text === null)
         {
@@ -85,7 +87,9 @@ class FormGroup extends Div
             ? Small::create()->text($text)
             : P::create()->text($text);
 
-        $element->helpText = $element->helpText->addClassIf($muted, 'text-muted');
+        $element->helpText = $element->helpText
+            ->addClassIf($extraClass !== null, $extraClass)
+            ->addClassIf($muted, 'text-muted');
 
         return $element;
     }
@@ -117,7 +121,8 @@ class FormGroup extends Div
         // Add a class to ourselves, to the control wrapper and to the label
         $element = $element->addClass('row');
 
-        if ($element->controlWrapper===null) {
+        if ($element->controlWrapper === null)
+        {
             $element->controlWrapper = Div::create();
         }
         $element->controlWrapper = $element->controlWrapper->addClass($rowConfig['control_wrapper'] ?? []);
@@ -152,36 +157,51 @@ class FormGroup extends Div
         }
 
         // Control
-        if ($this->control !== null)
+        $controlElement = null;
+        if ($element->control !== null)
         {
-            $childControl = $this->control->attributeIf($this->helpText !== null, 'aria-describedby', $helpTextId);
-
-            if ($this->controlWrapper !== null)
-            {
-                $childControl = $this->controlWrapper->addChild($childControl);
-            }
-
-            $element = $element->addChild($childControl);
+            $controlElement = $element->control->attributeIf($element->helpText !== null, 'aria-describedby',
+                $helpTextId);
         }
 
         // Help text
-        if ($this->helpText !== null)
+        $helpTextElement = null;
+        if ($element->helpText !== null)
         {
-            $element = $element->addChild($this->helpText->id($helpTextId));
+            $helpTextElement = $element->helpText->id($helpTextId);
         }
 
         // Error messages
-        if ($this->formState !== null && !$this->formState->shouldHideErrors())
+        $errorElement = null;
+        if ($element->formState !== null && !$element->formState->shouldHideErrors())
         {
-            $error = $this->formState->getFieldError($fieldName);
+            $error = $element->formState->getFieldError($fieldName);
             if ($fieldName !== null && !empty($error))
             {
                 // We add the d-block class to the feedback due to a bug in beta2
                 // See also: https://github.com/twbs/bootstrap/issues/23454
-                $element = $element->addChild(Div::create()
+                $errorElement = Div::create()
                     ->addClass(['invalid-feedback', 'd-block'])
-                    ->text($error));
+                    ->text($error);
             }
+        }
+
+        // Wrap it all up
+        if ($element->controlWrapper !== null)
+        {
+            $element->controlWrapper = $element->controlWrapper
+                ->addChildIf($controlElement !== null, $controlElement)
+                ->addChildIf($helpTextElement !== null, $helpTextElement)
+                ->addChildIf($errorElement !== null, $errorElement);
+
+            $element = $element->addChild($element->controlWrapper);
+        }
+        else
+        {
+            $element = $element
+                ->addChildIf($controlElement !== null, $controlElement)
+                ->addChildIf($helpTextElement !== null, $helpTextElement)
+                ->addChildIf($errorElement !== null, $errorElement);
         }
 
         return $element->addClass('form-group');
