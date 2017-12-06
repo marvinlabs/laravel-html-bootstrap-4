@@ -245,6 +245,17 @@ trait BuildsForms
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\Input
      */
+    public function password($name = null, $value = null): Input
+    {
+        return $this->input('password', $name, $value);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $value
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Input
+     */
     public function email($name = null, $value = null): Input
     {
         return $this->input('email', $name, $value);
