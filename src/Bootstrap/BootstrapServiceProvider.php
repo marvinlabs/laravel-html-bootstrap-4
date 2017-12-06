@@ -35,6 +35,10 @@ class BootstrapServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../../resources/lang' => resource_path('lang/vendor/bs'),
             ], 'lang');
+
+            $this->publishes([
+                __DIR__ . '/../../config' => resource_path('config'),
+            ], 'config');
         }
     }
 
