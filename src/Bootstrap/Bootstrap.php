@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsForms;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsSimpleComponents;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsStylesAndScripts;
+use MarvinLabs\Html\Bootstrap\Traits\DelegatesToSpatie;
 use Spatie\Html\Html;
 
 /**
@@ -17,7 +18,7 @@ use Spatie\Html\Html;
  */
 class Bootstrap
 {
-    use BuildsStylesAndScripts, BuildsForms, BuildsSimpleComponents;
+    use BuildsStylesAndScripts, BuildsForms, BuildsSimpleComponents, DelegatesToSpatie;
 
     /** @var \Spatie\Html\Html */
     protected $html;
