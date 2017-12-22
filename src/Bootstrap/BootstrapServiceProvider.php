@@ -38,7 +38,7 @@ class BootstrapServiceProvider extends ServiceProvider
             ], 'lang');
 
             $this->publishes([
-                __DIR__ . '/../../config' => resource_path('config'),
+                __DIR__ . '/../../config' => config_path(),
             ], 'config');
         }
     }
