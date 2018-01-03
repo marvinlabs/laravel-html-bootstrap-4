@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Span;
@@ -15,7 +16,10 @@ use Spatie\Html\Elements\Span;
  */
 class InputGroup extends Div
 {
-    use WrapsFormControl, Assemblable;
+    use WrapsFormControl, Assemblable, SizableComponent;
+
+    // Used by SizableComponent
+    protected $sizableClass = 'input-group';
 
     /** @var array */
     private $prefixes = [];
@@ -102,7 +106,6 @@ class InputGroup extends Div
 
         $element = $element->assembleAddons($this->suffixes, 'input-group-append');
 
-
         return $element->addClass('input-group');
     }
 
@@ -121,16 +124,25 @@ class InputGroup extends Div
             return $this;
         }
 
-        $div = Div::create()->addClass($addonContainerClass);
-        $div = $div->addChildren($addons, function ($token) {
-            $span = Span::create()->addClass('input-group-text');
+        $div = Div::create()
+            ->addClass($addonContainerClass)
+            ->addChildren($addons, function ($token) {
+                $content = $token['content'] ?? '';
+                $plainText = $token['plaintext'] ?? true;
 
-            $content = $token['content'];
+                // When not instructed to treat as plain text, use it directly
+                if ( !$plainText)
+                {
+                    return $content;
+                }
 
-            return \is_string($content)
-                ? $span->text($content)
-                : $span->addChild($content);
-        });
+                // When instructed to use as plain text, we wrap inside a span
+                $span = Span::create()->addClass('input-group-text');
+
+                return \is_string($content)
+                    ? $span->text($content)
+                    : $span->addChild($content);
+            });
 
         return $this->addChild($div);
     }
