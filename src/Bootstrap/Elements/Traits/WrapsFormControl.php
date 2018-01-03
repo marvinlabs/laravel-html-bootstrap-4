@@ -10,6 +10,8 @@ namespace MarvinLabs\Html\Bootstrap\Elements\Traits;
  */
 trait WrapsFormControl
 {
+    // Attributes that we want to delegate to the wrapped control element
+    private static $DELEGATED_CONTROL_ATTRIBUTES = ['name', 'disabled'];
 
     /** @var \Spatie\Html\BaseElement */
     private $control;
@@ -18,7 +20,7 @@ trait WrapsFormControl
     private $controlWrapper = null;
 
     /**
-     * For some attributes, return the value of the baking control instead of our own
+     * For some attributes, return the value of the backing control instead of our own
      *
      * @param string $attribute
      * @param null   $fallback
@@ -27,7 +29,7 @@ trait WrapsFormControl
      */
     public function getAttribute($attribute, $fallback = null)
     {
-        if ($attribute === 'name')
+        if (\in_array($attribute, self::$DELEGATED_CONTROL_ATTRIBUTES, true))
         {
             return $this->control->getAttribute($attribute, $fallback);
         }
@@ -43,11 +45,22 @@ trait WrapsFormControl
     public function name($name)
     {
         $element = clone $this;
-        $element = $element->for($name);
-
         $element->control = $this->control
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name));
+
+        return $element;
+    }
+
+    /**
+     * Disable the control
+     * @return static
+     */
+    public function disabled()
+    {
+        $element = clone $this;
+        $element->control = $this->control
+            ->attribute('disabled', 'disabled');
 
         return $element;
     }

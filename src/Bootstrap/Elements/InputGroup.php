@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
+use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Span;
@@ -15,7 +16,10 @@ use Spatie\Html\Elements\Span;
  */
 class InputGroup extends Div
 {
-    use WrapsFormControl, Assemblable;
+    use WrapsFormControl, Assemblable, SizableComponent;
+
+    // Used by SizableComponent
+    protected $sizableClass = 'input-group';
 
     /** @var array */
     private $prefixes = [];
@@ -92,7 +96,7 @@ class InputGroup extends Div
         }
 
         $element = clone $this;
-        $element = $element->assembleAddons($this->prefixes);
+        $element = $element->assembleAddons($this->prefixes, 'input-group-prepend');
 
         // Control
         if ($this->control !== null)
@@ -100,8 +104,7 @@ class InputGroup extends Div
             $element = $element->addChild($this->control);
         }
 
-        $element = $element->assembleAddons($this->suffixes);
-
+        $element = $element->assembleAddons($this->suffixes, 'input-group-append');
 
         return $element->addClass('input-group');
     }
@@ -109,26 +112,38 @@ class InputGroup extends Div
     /**
      * Add the child elements corresponding to the given addons
      *
-     * @param array $addons
+     * @param array  $addons
+     * @param string $addonContainerClass
      *
      * @return static
      */
-    private function assembleAddons($addons)
+    private function assembleAddons($addons, $addonContainerClass)
     {
         if (0 === \count($addons))
         {
             return $this;
         }
 
-        return $this->addChildren($addons, function ($token) {
-            $span = Span::create()
-                ->addClass($token['plaintext'] ? 'input-group-addon' : 'input-group-btn');
+        $div = Div::create()
+            ->addClass($addonContainerClass)
+            ->addChildren($addons, function ($token) {
+                $content = $token['content'] ?? '';
+                $plainText = $token['plaintext'] ?? true;
 
-            $content = $token['content'];
+                // When not instructed to treat as plain text, use it directly
+                if ( !$plainText)
+                {
+                    return $content;
+                }
 
-            return \is_string($content)
-                ? $span->text($content)
-                : $span->addChild($content);
-        });
+                // When instructed to use as plain text, we wrap inside a span
+                $span = Span::create()->addClass('input-group-text');
+
+                return \is_string($content)
+                    ? $span->text($content)
+                    : $span->addChild($content);
+            });
+
+        return $this->addChild($div);
     }
 }

@@ -4,6 +4,7 @@ namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
+use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 use Spatie\Html\Elements\Span;
 
@@ -13,13 +14,12 @@ use Spatie\Html\Elements\Span;
  *
  *          A custom checkbox. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
  *
- * <label class="custom-control custom-checkbox">
- *     <input type="checkbox" class="custom-control-input">
- *     <span class="custom-control-indicator"></span>
- *     <span class="custom-control-description">Check this custom checkbox</span>
- * </label>
+ * <div class="custom-control custom-checkbox">
+ *   <input type="checkbox" class="custom-control-input" id="customCheck1">
+ *   <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+ * </div>
  */
-class CheckBox extends Label
+class CheckBox extends Div
 {
     use WrapsFormControl, Assemblable;
 
@@ -76,20 +76,20 @@ class CheckBox extends Label
 
         $element = clone $this;
 
-        // Input field (hidden by CSS)
+        // Input field
         if ($element->control !== null)
         {
-            $element = $element->addChild($this->control);
+            $element = $element->addChild($this->control->addClass('custom-control-input'));
         }
 
-        // Custom indicator
-        $element = $element->addChild(Span::create()->addClass('custom-control-indicator'));
-
-        // Description
+        // Label
         if ($this->description !== null)
         {
             $element = $element->addChild(
-                Span::create()->text($this->description)->addClass('custom-control-description'));
+                Label::create()
+                    ->for($this->control->getAttribute('id'))
+                    ->text($this->description)
+                    ->addClass('custom-control-label'));
         }
 
         return $element->addClass(['custom-control', 'custom-checkbox']);
