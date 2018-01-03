@@ -7,7 +7,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
  */
 trait BuildsStylesAndScripts
 {
-    private static $BS4_CDN = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2';
+    private static $BS4_CDN = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3';
 
     /**
      * Link to the latest font-awesome CSS served from maxcdn.bootstrapcdn.com

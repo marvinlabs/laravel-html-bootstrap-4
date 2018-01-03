@@ -2,9 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
-## 0.6.1 - 2018/01/03
+## 0.7.0 - 2018/01/03
 
-- Fixes #18
+- Fixes #20: Update to BS 4 beta 3
+- Fixes #18: Form with enctype
 
 ## 0.6.0 - 2017/12/06
 
