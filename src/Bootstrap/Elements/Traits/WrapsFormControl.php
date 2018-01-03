@@ -18,7 +18,7 @@ trait WrapsFormControl
     private $controlWrapper = null;
 
     /**
-     * For some attributes, return the value of the baking control instead of our own
+     * For some attributes, return the value of the backing control instead of our own
      *
      * @param string $attribute
      * @param null   $fallback
@@ -43,8 +43,6 @@ trait WrapsFormControl
     public function name($name)
     {
         $element = clone $this;
-        $element = $element->for($name);
-
         $element->control = $this->control
             ->nameIf($name, $name)
             ->idIf($name, field_name_to_id($name));
