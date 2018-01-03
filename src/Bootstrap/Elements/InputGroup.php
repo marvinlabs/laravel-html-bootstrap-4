@@ -92,7 +92,7 @@ class InputGroup extends Div
         }
 
         $element = clone $this;
-        $element = $element->assembleAddons($this->prefixes);
+        $element = $element->assembleAddons($this->prefixes, 'input-group-prepend');
 
         // Control
         if ($this->control !== null)
@@ -100,7 +100,7 @@ class InputGroup extends Div
             $element = $element->addChild($this->control);
         }
 
-        $element = $element->assembleAddons($this->suffixes);
+        $element = $element->assembleAddons($this->suffixes, 'input-group-append');
 
 
         return $element->addClass('input-group');
@@ -109,20 +109,21 @@ class InputGroup extends Div
     /**
      * Add the child elements corresponding to the given addons
      *
-     * @param array $addons
+     * @param array  $addons
+     * @param string $addonContainerClass
      *
      * @return static
      */
-    private function assembleAddons($addons)
+    private function assembleAddons($addons, $addonContainerClass)
     {
         if (0 === \count($addons))
         {
             return $this;
         }
 
-        return $this->addChildren($addons, function ($token) {
-            $span = Span::create()
-                ->addClass($token['plaintext'] ? 'input-group-addon' : 'input-group-btn');
+        $div = Div::create()->addClass($addonContainerClass);
+        $div = $div->addChildren($addons, function ($token) {
+            $span = Span::create()->addClass('input-group-text');
 
             $content = $token['content'];
 
@@ -130,5 +131,7 @@ class InputGroup extends Div
                 ? $span->text($content)
                 : $span->addChild($content);
         });
+
+        return $this->addChild($div);
     }
 }
