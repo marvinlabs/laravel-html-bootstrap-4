@@ -29,13 +29,16 @@ abstract class HtmlTestCase extends TestCase
      * @param array $oldInput
      * @param null  $model
      * @param bool  $shouldHideErrors
+     * @param array $options
+     *
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
-    protected function openFakeForm($errors = [], $oldInput = [], $model = null, $shouldHideErrors = false)
+    protected function openFakeForm($errors = [], $oldInput = [], $model = null, $shouldHideErrors = false, $options = [])
     {
         $state = $this->fakeFormState($errors, $oldInput, $model, $shouldHideErrors);
         $this->app->instance(FormState::class, $state);
 
         // Form must be open in order to setup form state
-        bs()->openForm('get', '/');
+        return bs()->openForm('get', '/', $options);
     }
 }
