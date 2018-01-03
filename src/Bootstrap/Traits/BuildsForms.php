@@ -77,8 +77,13 @@ trait BuildsForms
             $this->currentForm = $this->currentForm->addChild($this->token());
         }
 
+        if ($options['files'] ?? false) {
+            $this->currentForm = $this->currentForm->acceptsFiles();
+        }
+        
         return $this->currentForm
-            ->method($method)->action($action)
+            ->method($method)
+            ->action($action)
             ->addClassIf($options['inline'] ?? false, 'form-inline')
             ->open();
     }
