@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 0.6.0 - 2017/12/06
+
+- Add the `password` method to generate such input fields
+
 ## 0.5.0 - 2017/12/06
 
 - Simplify horizontal forms with `$formGroup.showAsRow` method
