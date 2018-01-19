@@ -2,6 +2,11 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 0.8.0 - 2018/01/19
+
+- Update to BS 4 stable
+- Make all versions we pull from CDNs configurable
+
 ## 0.7.0 - 2018/01/03
 
 - Fixes #20: Update to BS 4 beta 3
