@@ -7,7 +7,7 @@ namespace MarvinLabs\Html\Bootstrap\Traits;
  */
 trait BuildsStylesAndScripts
 {
-    private static $BS4_CDN = 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0';
+    private static $BS4_CDN = 'https://maxcdn.bootstrapcdn.com/bootstrap/';
 
     /**
      * Link to the latest font-awesome CSS served from maxcdn.bootstrapcdn.com
@@ -20,10 +20,10 @@ trait BuildsStylesAndScripts
     {
         $dependencies[] = 'bs4';
         $urls = collect([
-            'jquery'      => 'https://code.jquery.com/jquery-3.2.1.min.js',
-            'jquery.slim' => 'https://code.jquery.com/jquery-3.2.1.slim.min.js',
-            'popper'      => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
-            'bs4'         => self::$BS4_CDN . '/js/bootstrap.min.js',
+            'jquery'      => 'https://code.jquery.com/jquery-' . config('bs4.versions.jquery') . '.min.js',
+            'jquery.slim' => 'https://code.jquery.com/jquery-' . config('bs4.versions.jquery') . '.slim.min.js',
+            'popper'      => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/' . config('bs4.versions.popper') . '/umd/popper.min.js',
+            'bs4'         => self::$BS4_CDN . config('bs4.versions.bootstrap') . '/js/bootstrap.min.js',
         ]);
 
         return $this->html->div()->addChildren(
@@ -44,7 +44,7 @@ trait BuildsStylesAndScripts
     public function css()
     {
         return $this->html->element('link')->attributes([
-            'href'        => self::$BS4_CDN . '/css/bootstrap.min.css',
+            'href'        => self::$BS4_CDN . config('bs4.versions.bootstrap') . '/css/bootstrap.min.css',
             'rel'         => 'stylesheet',
             'crossorigin' => 'anonymous',
         ]);
