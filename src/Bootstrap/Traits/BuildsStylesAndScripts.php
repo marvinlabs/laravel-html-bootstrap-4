@@ -29,7 +29,7 @@ trait BuildsStylesAndScripts
         return $this->html->div()->addChildren(
             $urls
                 ->filter(function ($value, $key) use ($dependencies) {
-                    return in_array($key, $dependencies, true);
+                    return \in_array($key, $dependencies, true);
                 })
                 ->map(function ($v) {
                     return $this->mapScriptElement($v);
