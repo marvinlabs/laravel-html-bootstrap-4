@@ -10,6 +10,7 @@ use Spatie\Html\Elements\Span;
 
 /**
  * Class CheckBox
+ *
  * @package MarvinLabs\Html\Bootstrap\Elements
  *
  *          A custom checkbox. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
@@ -22,6 +23,9 @@ use Spatie\Html\Elements\Span;
 class CheckBox extends Div
 {
     use WrapsFormControl, Assemblable;
+
+    /** @var  string|null */
+    private $value;
 
     /** @var  string|null */
     private $description;
@@ -47,6 +51,19 @@ class CheckBox extends Div
     {
         $element = clone $this;
         $element->description = $text;
+
+        return $element;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return static
+     */
+    public function value($value)
+    {
+        $element = clone $this;
+        $element->value = $value;
 
         return $element;
     }
@@ -79,7 +96,10 @@ class CheckBox extends Div
         // Input field
         if ($element->control !== null)
         {
-            $element = $element->addChild($this->control->addClass('custom-control-input'));
+            $element = $element->addChild(
+                $this->control
+                    ->addClass('custom-control-input')
+                    ->value($this->value ?? '1'));
         }
 
         // Label
@@ -87,9 +107,9 @@ class CheckBox extends Div
         {
             $element = $element->addChild(
                 Label::create()
-                    ->for($this->control->getAttribute('id'))
-                    ->text($this->description)
-                    ->addClass('custom-control-label'));
+                     ->for($this->control->getAttribute('id'))
+                     ->text($this->description)
+                     ->addClass('custom-control-label'));
         }
 
         return $element->addClass(['custom-control', 'custom-checkbox']);
