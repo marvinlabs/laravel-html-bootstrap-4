@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 0.8.1 - 2018/03/06
+
+- Allow to customize checkbox value
+
 ## 0.8.0 - 2018/01/19
 
 - Update to BS 4 stable
