@@ -178,10 +178,8 @@ class FormGroup extends Div
             $error = $element->formState->getFieldError($fieldName);
             if ($fieldName !== null && !empty($error))
             {
-                // We add the d-block class to the feedback due to a bug in beta2
-                // See also: https://github.com/twbs/bootstrap/issues/23454
                 $errorElement = Div::create()
-                    ->addClass(['invalid-feedback', 'd-block'])
+                    ->addClass(['invalid-feedback'])
                     ->text($error);
             }
         }
