@@ -1,6 +1,6 @@
 {
     "name" : "marvinlabs/laravel-html-bootstrap-4",
-    "description" : "A fluent html builder for Font Awesome icons",
+    "description" : "A fluent html builder for Bootstrap 4 components",
     "keywords" : [
         "marvinlabs",
         "bootstrap-4",
