@@ -12,9 +12,9 @@ return [
     |
     */
     'versions'  => [
-        'bootstrap' => '4.0.0',
-        'jquery'    => '3.2.1',
-        'popper'    => '1.12.9',
+        'bootstrap' => '4.1.0',
+        'jquery'    => '3.3.1',
+        'popper'    => '1.14.0',
     ],
 
     /*
