@@ -11,6 +11,7 @@ use MarvinLabs\Html\Bootstrap\Elements\File;
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Elements\InputGroup;
+use MarvinLabs\Html\Bootstrap\Elements\Radio;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
@@ -208,6 +209,25 @@ trait BuildsForms
     {
         $isChecked = $this->getFieldValue($name, $isChecked);
         $element = new CheckBox($this->formState);
+
+        return $element
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->description($description)
+            ->checked($isChecked);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $description
+     * @param bool        $isChecked
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Radio
+     */
+    public function radio($name = null, $description = null, $isChecked = false): Radio
+    {
+        $isChecked = $this->getFieldValue($name, $isChecked);
+        $element = new Radio($this->formState);
 
         return $element
             ->nameIf($name, $name)

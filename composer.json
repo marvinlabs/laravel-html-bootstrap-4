@@ -18,7 +18,7 @@
     ],
     "require" : {
         "php" : "^7.0",
-        "spatie/laravel-html" : "~2.10.0",
+        "spatie/laravel-html" : "~2.19.0",
         "appstract/laravel-blade-directives" : "~0.7.0"
     },
     "require-dev" : {
