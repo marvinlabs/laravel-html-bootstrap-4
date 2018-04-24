@@ -30,11 +30,6 @@ class CheckBox extends Div
     /** @var  string|null */
     private $description;
 
-    /**
-     * FormGroup constructor.
-     *
-     * @param \MarvinLabs\Html\Bootstrap\Contracts\FormState $formState
-     */
     public function __construct($formState)
     {
         parent::__construct();
@@ -42,12 +37,8 @@ class CheckBox extends Div
         $this->control = (new Input($formState))->type('checkbox');
     }
 
-    /**
-     * @param string $text
-     *
-     * @return static
-     */
-    public function description($text)
+    /** @return static */
+    public function description(string $text)
     {
         $element = clone $this;
         $element->description = $text;
@@ -55,12 +46,8 @@ class CheckBox extends Div
         return $element;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return static
-     */
-    public function value($value)
+    /** @return static */
+    public function value(string $value)
     {
         $element = clone $this;
         $element->value = $value;
