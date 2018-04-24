@@ -186,7 +186,7 @@ trait BuildsForms
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\Textarea
      */
-    public function textarea($name = null, $value = null): Textarea
+    public function textArea($name = null, $value = null): TextArea
     {
         $value = $this->getFieldValue($name, $value);
         $element = new TextArea($this->formState);
