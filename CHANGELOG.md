@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.1.0 - 2018/04/25
+
+- Make the Bootstrap class Macroable
+
 ## 1.0.1 - 2018/04/25
 
 - Fix #26

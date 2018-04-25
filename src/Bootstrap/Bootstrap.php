@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Traits\Macroable;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsForms;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsSimpleComponents;
 use MarvinLabs\Html\Bootstrap\Traits\BuildsStylesAndScripts;
@@ -18,7 +19,7 @@ use Spatie\Html\Html;
  */
 class Bootstrap
 {
-    use BuildsStylesAndScripts, BuildsForms, BuildsSimpleComponents, DelegatesToSpatie;
+    use Macroable, BuildsStylesAndScripts, BuildsForms, BuildsSimpleComponents, DelegatesToSpatie;
 
     /** @var \Spatie\Html\Html */
     protected $html;
