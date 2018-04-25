@@ -26,6 +26,9 @@ class Radio extends Div
     /** @var  string|null */
     private $description;
 
+    /** @var boolean */
+    private $inline = false;
+
     public function __construct($formState)
     {
         parent::__construct();
@@ -47,6 +50,15 @@ class Radio extends Div
     {
         $element = clone $this;
         $element->value = $value;
+
+        return $element;
+    }
+
+    /** @return static */
+    public function inline($inline = true)
+    {
+        $element = clone $this;
+        $element->inline = $inline;
 
         return $element;
     }
@@ -79,10 +91,12 @@ class Radio extends Div
         // Input field
         if ($element->control !== null)
         {
-            $element = $element->addChild(
-                $this->control
-                    ->addClass('custom-control-input')
-                    ->value($this->value ?? '1'));
+            $this->control = $this->control
+                ->addClass('custom-control-input')
+                ->value($this->value ?? '1')
+                ->id($this->control->getAttribute('name') . '_' . ($this->value ?? '1'));
+
+            $element = $element->addChild($this->control);
         }
 
         // Label
@@ -95,7 +109,8 @@ class Radio extends Div
                      ->addClass('custom-control-label'));
         }
 
-        return $element->addClass(['custom-control', 'custom-radio']);
+        return $element->addClass(['custom-control', 'custom-radio'])
+            ->addClassIf($this->inline, 'custom-control-inline');
     }
 
 }

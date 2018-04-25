@@ -12,9 +12,11 @@ use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Elements\InputGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Radio;
+use MarvinLabs\Html\Bootstrap\Elements\RadioGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
+use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Form;
 
 /**
@@ -234,6 +236,24 @@ trait BuildsForms
             ->idIf($name, field_name_to_id($name) . '_wrapper')
             ->description($description)
             ->checked($isChecked);
+    }
+
+    /**
+     * @param string|null $name
+     * @param array       $options
+     * @param string      $selectedOption
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\RadioGroup
+     */
+    public function radioGroup($name, $options, $selectedOption = null): RadioGroup
+    {
+        $element = new RadioGroup($this->formState);
+
+        return $element
+            ->name($name)
+            ->id(field_name_to_id($name) . '_radio_group')
+            ->options($options)
+            ->selectedOption($selectedOption);
     }
 
     /**
