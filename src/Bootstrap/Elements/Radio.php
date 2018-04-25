@@ -78,6 +78,16 @@ class Radio extends Div
         return $element;
     }
 
+    public function disabled($disabled = true)
+    {
+        $element = clone $this;
+        $element->control = $disabled
+            ? $element->control->attribute('disabled', 'disabled')
+            : $element->control->forgetAttribute('disabled');
+
+        return $element;
+    }
+
     /** @Override */
     protected function assemble()
     {

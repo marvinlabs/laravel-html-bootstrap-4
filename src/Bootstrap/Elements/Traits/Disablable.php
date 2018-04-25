@@ -4,23 +4,16 @@ namespace MarvinLabs\Html\Bootstrap\Elements\Traits;
 
 
 /**
- * Trait CanBeDisabled
- * @package MarvinLabs\Html\Bootstrap\Elements\Traits
- * @target \Spatie\Html\BaseElement
+ * Control which can be disabled
  *
- *          Control can be disabled
+ * @target \Spatie\Html\BaseElement
  */
 trait Disablable
 {
-
-    /**
-     * Disable the control
-     * @return static
-     */
-    public function disabled()
+    public function disabled($disabled = true)
     {
-        return $this->attribute('disabled', 'disabled');
+        return $disabled
+            ? $this->attribute('disabled', 'disabled')
+            : $this->forgetAttribute('disabled');
     }
-
-
 }
