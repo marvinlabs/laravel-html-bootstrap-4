@@ -2,6 +2,11 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.0.0 - 2018/04/25
+
+- Let's consider now that the library enters a more mature state. Hello 1.0.0
+- Fix the composer version requirements for dependencies
+
 ## 0.9.0 - 2018/04/25
 
 - Add radio buttons and radio groups

@@ -18,12 +18,12 @@
     ],
     "require" : {
         "php" : "^7.0",
-        "spatie/laravel-html" : "~2.19.0",
-        "appstract/laravel-blade-directives" : "~0.7.0"
+        "spatie/laravel-html" : "^2.19.0",
+        "appstract/laravel-blade-directives" : "^0.7.0"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "~6.4",
-        "orchestra/testbench" : "~3.5"
+        "phpunit/phpunit" : "^6.4",
+        "orchestra/testbench" : "^3.5"
     },
     "autoload" : {
         "psr-4" : {
