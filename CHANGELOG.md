@@ -2,6 +2,9 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+- Fix #26
+- Fix disabled state of radio buttons
+
 ## 1.0.0 - 2018/04/25
 
 - Let's consider now that the library enters a more mature state. Hello 1.0.0
