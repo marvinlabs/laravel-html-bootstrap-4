@@ -11,9 +11,12 @@ use MarvinLabs\Html\Bootstrap\Elements\File;
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Elements\InputGroup;
+use MarvinLabs\Html\Bootstrap\Elements\Radio;
+use MarvinLabs\Html\Bootstrap\Elements\RadioGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
+use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Form;
 
 /**
@@ -77,10 +80,11 @@ trait BuildsForms
             $this->currentForm = $this->currentForm->addChild($this->token());
         }
 
-        if ($options['files'] ?? false) {
+        if ($options['files'] ?? false)
+        {
             $this->currentForm = $this->currentForm->acceptsFiles();
         }
-        
+
         return $this->currentForm
             ->method($method)
             ->action($action)
@@ -155,7 +159,7 @@ trait BuildsForms
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\File
      */
-    public function file($name = null): File
+    public function simpleFile($name = null): File
     {
         $element = new File($this->formState);
 
@@ -169,13 +173,14 @@ trait BuildsForms
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\CustomFile
      */
-    public function customFile($name = null): CustomFile
+    public function file($name = null, $description = null): CustomFile
     {
         $element = new CustomFile($this->formState);
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper');
+            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->description($description);
     }
 
     /**
@@ -184,7 +189,7 @@ trait BuildsForms
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\Textarea
      */
-    public function textarea($name = null, $value = null): Textarea
+    public function textArea($name = null, $value = null): TextArea
     {
         $value = $this->getFieldValue($name, $value);
         $element = new TextArea($this->formState);
@@ -212,6 +217,43 @@ trait BuildsForms
             ->idIf($name, field_name_to_id($name) . '_wrapper')
             ->description($description)
             ->checked($isChecked);
+    }
+
+    /**
+     * @param string|null $name
+     * @param string|null $description
+     * @param bool        $isChecked
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\Radio
+     */
+    public function radio($name = null, $description = null, $isChecked = false): Radio
+    {
+        $isChecked = $this->getFieldValue($name, $isChecked);
+        $element = new Radio($this->formState);
+
+        return $element
+            ->nameIf($name, $name)
+            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->description($description)
+            ->checked($isChecked);
+    }
+
+    /**
+     * @param string|null $name
+     * @param array       $options
+     * @param string      $selectedOption
+     *
+     * @return \MarvinLabs\Html\Bootstrap\Elements\RadioGroup
+     */
+    public function radioGroup($name, $options, $selectedOption = null): RadioGroup
+    {
+        $element = new RadioGroup($this->formState);
+
+        return $element
+            ->name($name)
+            ->id(field_name_to_id($name) . '_radio_group')
+            ->options($options)
+            ->selectedOption($selectedOption);
     }
 
     /**

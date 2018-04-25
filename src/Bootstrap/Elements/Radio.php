@@ -9,18 +9,14 @@ use Spatie\Html\Elements\Label;
 use Spatie\Html\Elements\Span;
 
 /**
- * Class CheckBox
+ * A custom radio. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
  *
- * @package MarvinLabs\Html\Bootstrap\Elements
- *
- *          A custom checkbox. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
- *
- * <div class="custom-control custom-checkbox">
+ * <div class="custom-control custom-radio">
  *   <input type="checkbox" class="custom-control-input" id="customCheck1">
- *   <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+ *   <label class="custom-control-label" for="customCheck1">Select this custom radio</label>
  * </div>
  */
-class CheckBox extends Div
+class Radio extends Div
 {
     use WrapsFormControl, Assemblable;
 
@@ -30,11 +26,14 @@ class CheckBox extends Div
     /** @var  string|null */
     private $description;
 
+    /** @var boolean */
+    private $inline = false;
+
     public function __construct($formState)
     {
         parent::__construct();
 
-        $this->control = (new Input($formState))->type('checkbox');
+        $this->control = (new Input($formState))->type('radio');
     }
 
     /** @return static */
@@ -51,6 +50,15 @@ class CheckBox extends Div
     {
         $element = clone $this;
         $element->value = $value;
+
+        return $element;
+    }
+
+    /** @return static */
+    public function inline($inline = true)
+    {
+        $element = clone $this;
+        $element->inline = $inline;
 
         return $element;
     }
@@ -83,10 +91,12 @@ class CheckBox extends Div
         // Input field
         if ($element->control !== null)
         {
-            $element = $element->addChild(
-                $this->control
-                    ->addClass('custom-control-input')
-                    ->value($this->value ?? '1'));
+            $this->control = $this->control
+                ->addClass('custom-control-input')
+                ->value($this->value ?? '1')
+                ->id($this->control->getAttribute('name') . '_' . ($this->value ?? '1'));
+
+            $element = $element->addChild($this->control);
         }
 
         // Label
@@ -99,7 +109,8 @@ class CheckBox extends Div
                      ->addClass('custom-control-label'));
         }
 
-        return $element->addClass(['custom-control', 'custom-checkbox']);
+        return $element->addClass(['custom-control', 'custom-radio'])
+            ->addClassIf($this->inline, 'custom-control-inline');
     }
 
 }

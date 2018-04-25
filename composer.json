@@ -1,6 +1,6 @@
 {
     "name" : "marvinlabs/laravel-html-bootstrap-4",
-    "description" : "A fluent html builder for Font Awesome icons",
+    "description" : "A fluent html builder for Bootstrap 4 components",
     "keywords" : [
         "marvinlabs",
         "bootstrap-4",
@@ -18,7 +18,7 @@
     ],
     "require" : {
         "php" : "^7.0",
-        "spatie/laravel-html" : "~2.10.0",
+        "spatie/laravel-html" : "~2.19.0",
         "appstract/laravel-blade-directives" : "~0.7.0"
     },
     "require-dev" : {

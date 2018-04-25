@@ -2,6 +2,12 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 0.9.0 - 2018/04/25
+
+- Add radio buttons and radio groups
+- Update default Bootstrap version to 4.1
+- Fix custom file input
+
 ## 0.8.1 - 2018/03/06
 
 - Allow to customize checkbox value
