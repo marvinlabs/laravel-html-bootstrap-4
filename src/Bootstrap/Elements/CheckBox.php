@@ -38,7 +38,7 @@ class CheckBox extends Div
     }
 
     /** @return static */
-    public function description(string $text)
+    public function description($text)
     {
         $element = clone $this;
         $element->description = $text;
@@ -47,7 +47,7 @@ class CheckBox extends Div
     }
 
     /** @return static */
-    public function value(string $value)
+    public function value($value)
     {
         $element = clone $this;
         $element->value = $value;
