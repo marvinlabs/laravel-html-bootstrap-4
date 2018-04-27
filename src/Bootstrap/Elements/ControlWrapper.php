@@ -3,10 +3,11 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use BadMethodCallException;
+use MarvinLabs\Html\Bootstrap\Contracts\ShowsErrors;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use Spatie\Html\Elements\Div;
 
-abstract class ControlWrapper extends Div
+abstract class ControlWrapper extends Div implements ShowsErrors
 {
     use Assemblable;
 
@@ -31,7 +32,6 @@ abstract class ControlWrapper extends Div
         $this->initialClasses = $initialClasses;
         $this->delegatedControlAttributes = $delegatedControlAttributes;
     }
-
 
     /**
      * For some attributes, return the value of the backing control instead of our own
@@ -79,6 +79,14 @@ abstract class ControlWrapper extends Div
         return $element;
     }
 
+    public function showError($error)
+    {
+        if ($error===null ) return $this;
+
+        $element = clone $this;
+        return $element->addChild($error);
+    }
+
     protected function assemble()
     {
         if ($this->control === null)
@@ -87,6 +95,7 @@ abstract class ControlWrapper extends Div
         }
 
         $element = $this->wrapControl();
+        $element = $element->addChildren($this->children);
 
         return $element->addClass($this->initialClasses);
     }

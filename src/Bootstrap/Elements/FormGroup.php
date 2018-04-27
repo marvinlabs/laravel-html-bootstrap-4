@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 
+use MarvinLabs\Html\Bootstrap\Contracts\ShowsErrors;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 
@@ -134,7 +135,7 @@ class FormGroup extends ControlWrapper
         $helpTextId = field_name_to_id($fieldName) . '_helptext';
 
         // Label
-        if ( $element->label !== null)
+        if ($element->label !== null)
         {
             $element = $element->addChild($element->label->for($fieldId));
         }
@@ -156,6 +157,7 @@ class FormGroup extends ControlWrapper
 
         // Error messages
         $errorElement = null;
+        $addErrorAsControlChild = false;
         if ($element->formState !== null && !$element->formState->shouldHideErrors())
         {
             $error = $element->formState->getFieldError($fieldName);
@@ -165,6 +167,13 @@ class FormGroup extends ControlWrapper
                                    ->addClass(['invalid-feedback'])
                                    ->text($error);
             }
+
+            $addErrorAsControlChild = is_a($controlElement, ShowsErrors::class);
+        }
+
+        if ($addErrorAsControlChild)
+        {
+            $controlElement = $controlElement->showError($errorElement);
         }
 
         // Wrap it all up
@@ -173,7 +182,7 @@ class FormGroup extends ControlWrapper
             $element->controlWrapper = $element->controlWrapper
                 ->addChildIf($controlElement !== null, $controlElement)
                 ->addChildIf($helpTextElement !== null, $helpTextElement)
-                ->addChildIf($errorElement !== null, $errorElement);
+                ->addChildIf($errorElement !== null && !$addErrorAsControlChild, $errorElement);
 
             $element = $element->addChild($element->controlWrapper);
         }
@@ -182,7 +191,7 @@ class FormGroup extends ControlWrapper
             $element = $element
                 ->addChildIf($controlElement !== null, $controlElement)
                 ->addChildIf($helpTextElement !== null, $helpTextElement)
-                ->addChildIf($errorElement !== null, $errorElement);
+                ->addChildIf($errorElement !== null && !$addErrorAsControlChild, $errorElement);
         }
 
         return $element;
