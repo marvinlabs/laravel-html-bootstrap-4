@@ -14,18 +14,21 @@ abstract class ControlWrapper extends Div
     protected $control;
 
     /** @var array */
-    protected $wrapperClasses;
+    protected $initialClasses;
+
+    /** @var \Spatie\Html\BaseElement */
+    protected $controlWrapper = null;
 
     /** @var array */
     protected $delegatedControlAttributes;
 
-    public function __construct(\Spatie\Html\BaseElement $control,
-                                array $wrapperClasses = [],
+    public function __construct($control,
+                                array $initialClasses = [],
                                 array $delegatedControlAttributes = ['name', 'disabled'])
     {
         parent::__construct();
         $this->control = $control;
-        $this->wrapperClasses = $wrapperClasses;
+        $this->initialClasses = $initialClasses;
         $this->delegatedControlAttributes = $delegatedControlAttributes;
     }
 
@@ -63,6 +66,19 @@ abstract class ControlWrapper extends Div
         return $element;
     }
 
+    /**
+     * @param \Spatie\Html\BaseElement $control
+     *
+     * @return static
+     */
+    public function control($control)
+    {
+        $element = clone $this;
+        $element->control = $control;
+
+        return $element;
+    }
+
     protected function assemble()
     {
         if ($this->control === null)
@@ -72,7 +88,7 @@ abstract class ControlWrapper extends Div
 
         $element = $this->wrapControl();
 
-        return $element->addClass($this->wrapperClasses);
+        return $element->addClass($this->initialClasses);
     }
 
     protected abstract function wrapControl();
@@ -82,9 +98,13 @@ abstract class ControlWrapper extends Div
         // Control setters
         foreach (['control' => '', 'forgetControl' => 'forget', 'addControl' => 'add'] as $needle => $replacement)
         {
-            if (starts_with($name, $needle))
+            if ($name!==$needle && starts_with($name, $needle))
             {
                 $name = str_replace($needle, $replacement, $name);
+                if (empty($name)) {
+                    return parent::__call($name, $arguments);
+                }
+
                 if (!method_exists($this->control, $name))
                 {
                     throw new BadMethodCallException("$name is not a valid method for the wrapped control");
@@ -110,5 +130,23 @@ abstract class ControlWrapper extends Div
         }
 
         return parent::__call($name, $arguments);
+    }
+
+    /**
+     * @param \Spatie\Html\BaseElement $wrapper
+     *
+     * @return static
+     */
+    public function wrapControlIn($wrapper)
+    {
+        if ($wrapper === null)
+        {
+            return $this;
+        }
+
+        $element = clone $this;
+        $element->controlWrapper = $wrapper;
+
+        return $element;
     }
 }
