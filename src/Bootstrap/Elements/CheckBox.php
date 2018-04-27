@@ -20,6 +20,9 @@ class CheckBox extends ControlWrapper
     /** @var  string|null */
     private $description;
 
+    /** @var boolean */
+    private $inline = false;
+
     public function __construct($formState)
     {
         parent::__construct(
@@ -27,7 +30,10 @@ class CheckBox extends ControlWrapper
             ['custom-control', 'custom-checkbox']);
     }
 
-    /** @return static */
+    /**
+     * @param string|null $text
+     * @return static
+     */
     public function description($text)
     {
         $element = clone $this;
@@ -36,11 +42,26 @@ class CheckBox extends ControlWrapper
         return $element;
     }
 
-    /** @return static */
+    /**
+     * @param string|null $value
+     * @return static
+     */
     public function value($value)
     {
         $element = clone $this;
         $element->value = $value;
+
+        return $element;
+    }
+
+    /**
+     * @param bool $inline
+     * @return static
+     */
+    public function inline($inline = true)
+    {
+        $element = clone $this;
+        $element->inline = $inline;
 
         return $element;
     }
@@ -53,7 +74,6 @@ class CheckBox extends ControlWrapper
     public function checked($isChecked = true)
     {
         $element = clone $this;
-
         return $isChecked
             ? $element->controlAttribute('checked', 'checked')
             : $element->forgetControlAttribute('checked');
@@ -67,7 +87,6 @@ class CheckBox extends ControlWrapper
     public function disabled($disabled = true)
     {
         $element = clone $this;
-
         return $disabled
             ? $element->controlAttribute('disabled', 'disabled')
             : $element->forgetControlAttribute('disabled');
@@ -91,7 +110,7 @@ class CheckBox extends ControlWrapper
                      ->addClass('custom-control-label'));
         }
 
-        return $element;
+        return $element->addClassIf($this->inline, 'custom-control-inline');
     }
 
 }

@@ -2,11 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
-use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
-use Spatie\Html\Elements\Span;
 
 /**
  * A custom radio. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
@@ -16,10 +12,8 @@ use Spatie\Html\Elements\Span;
  *   <label class="custom-control-label" for="customCheck1">Select this custom radio</label>
  * </div>
  */
-class Radio extends Div
+class Radio extends ControlWrapper
 {
-    use WrapsFormControl, Assemblable;
-
     /** @var  string|null */
     private $value;
 
@@ -31,12 +25,15 @@ class Radio extends Div
 
     public function __construct($formState)
     {
-        parent::__construct();
-
-        $this->control = (new Input($formState))->type('radio');
+        parent::__construct(
+            (new Input($formState))->type('radio'),
+            ['custom-control', 'custom-radio']);
     }
 
-    /** @return static */
+    /**
+     * @param string|null $text
+     * @return static
+     */
     public function description(string $text)
     {
         $element = clone $this;
@@ -45,7 +42,10 @@ class Radio extends Div
         return $element;
     }
 
-    /** @return static */
+    /**
+     * @param string|null $value
+     * @return static
+     */
     public function value(string $value)
     {
         $element = clone $this;
@@ -54,7 +54,10 @@ class Radio extends Div
         return $element;
     }
 
-    /** @return static */
+    /**
+     * @param bool $inline
+     * @return static
+     */
     public function inline($inline = true)
     {
         $element = clone $this;
@@ -71,56 +74,39 @@ class Radio extends Div
     public function checked($isChecked = true)
     {
         $element = clone $this;
-        $element->control = $isChecked
-            ? $element->control->attribute('checked', 'checked')
-            : $element->control->forgetAttribute('checked');
-
-        return $element;
+        return $isChecked
+            ? $element->controlAttribute('checked', 'checked')
+            : $element->forgetControlAttribute('checked');
     }
 
     public function disabled($disabled = true)
     {
         $element = clone $this;
-        $element->control = $disabled
-            ? $element->control->attribute('disabled', 'disabled')
-            : $element->control->forgetAttribute('disabled');
-
-        return $element;
+        return $disabled
+            ? $element->controlAttribute('disabled', 'disabled')
+            : $element->forgetControlAttribute('disabled');
     }
 
-    /** @Override */
-    protected function assemble()
+    protected function wrapControl()
     {
-        if ($this->control === null)
-        {
-            return $this;
-        }
-
         $element = clone $this;
-
-        // Input field
-        if ($element->control !== null)
-        {
-            $this->control = $this->control
+        $element = $element->addChild(
+            $this->control
                 ->addClass('custom-control-input')
                 ->value($this->value ?? '1')
-                ->id($this->control->getAttribute('name') . '_' . ($this->value ?? '1'));
-
-            $element = $element->addChild($this->control);
-        }
+                ->id($this->getControlAttribute('name') . '_' . ($this->value ?? '1')));
 
         // Label
         if ($this->description !== null)
         {
             $element = $element->addChild(
                 Label::create()
-                     ->for($this->control->getAttribute('id'))
+                     ->for($this->getControlAttribute('id'))
                      ->text($this->description)
                      ->addClass('custom-control-label'));
         }
 
-        return $element->addClass(['custom-control', 'custom-radio'])
-            ->addClassIf($this->inline, 'custom-control-inline');
+        return $element->addClassIf($this->inline, 'custom-control-inline');
     }
 
 }
