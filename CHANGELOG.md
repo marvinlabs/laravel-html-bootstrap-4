@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.2.0 - 2018/04/27
+
+- Offer access to direct attributes of wrapped controls (#28)
+
 ## 1.1.0 - 2018/04/25
 
 - Make the Bootstrap class Macroable
