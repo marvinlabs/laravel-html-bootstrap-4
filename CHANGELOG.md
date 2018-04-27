@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.3.1 - 2018/04/27
+
+- Validation errors are now showing properly on custom checkboxes / files / radios / radio groups
+
 ## 1.3.0 - 2018/04/27
 
 - Allow calling a function on each radio control of a group (#31)
