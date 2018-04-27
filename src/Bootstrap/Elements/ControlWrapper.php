@@ -98,11 +98,17 @@ abstract class ControlWrapper extends Div
         // Control setters
         foreach (['control' => '', 'forgetControl' => 'forget', 'addControl' => 'add'] as $needle => $replacement)
         {
-            if ($name!==$needle && starts_with($name, $needle))
+            if ($name !== $needle && starts_with($name, $needle))
             {
                 $name = str_replace($needle, $replacement, $name);
-                if (empty($name)) {
+                if (empty($name))
+                {
                     return parent::__call($name, $arguments);
+                }
+
+                if (empty($replacement))
+                {
+                    $name = \lcfirst($name);
                 }
 
                 if (!method_exists($this->control, $name))
@@ -116,13 +122,17 @@ abstract class ControlWrapper extends Div
             }
         }
 
-        if (starts_with($name, 'getControl')) {
+        // Control getters
+        if (starts_with($name, 'getControl'))
+        {
             $name = str_replace('getControl', 'get', $name);
-            if (empty($name)) {
+            if (empty($name))
+            {
                 return $this->control;
             }
 
-            if (! method_exists($this->control, $name)) {
+            if (!method_exists($this->control, $name))
+            {
                 throw new BadMethodCallException("$name is not a valid method for the wrapped control");
             }
 
