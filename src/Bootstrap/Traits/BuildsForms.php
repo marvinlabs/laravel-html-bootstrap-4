@@ -181,7 +181,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description);
     }
 
@@ -216,7 +216,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description)
             ->checked($isChecked);
     }
@@ -235,7 +235,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description)
             ->checked($isChecked);
     }
