@@ -10,6 +10,7 @@ use Spatie\Html\Elements\Label;
 
 /**
  * Class FormGroup
+ *
  * @package MarvinLabs\Html\Bootstrap\Elements
  *
  *          Wraps a control, label, errors on that field, etc.
@@ -57,10 +58,10 @@ class FormGroup extends Div
 
         $element = clone $this;
         $element->label = Label::create()
-            ->text($text)
-            ->addClassIf($screenReaderOnly, 'sr-only')
-            ->addClass('col-form-label')
-            ->addClass($extraClasses);
+                               ->text($text)
+                               ->addClassIf($screenReaderOnly, 'sr-only')
+                               ->addClass('col-form-label')
+                               ->addClass($extraClasses);
 
         return $element;
     }
@@ -160,8 +161,8 @@ class FormGroup extends Div
         $controlElement = null;
         if ($element->control !== null)
         {
-            $controlElement = $element->control->attributeIf($element->helpText !== null, 'aria-describedby',
-                $helpTextId);
+            $controlElement = $element->control
+                ->attributeIf($element->helpText !== null, 'aria-describedby', $helpTextId);
         }
 
         // Help text
@@ -179,8 +180,8 @@ class FormGroup extends Div
             if ($fieldName !== null && !empty($error))
             {
                 $errorElement = Div::create()
-                    ->addClass(['invalid-feedback'])
-                    ->text($error);
+                                   ->addClass(['invalid-feedback'])
+                                   ->text($error);
             }
         }
 
