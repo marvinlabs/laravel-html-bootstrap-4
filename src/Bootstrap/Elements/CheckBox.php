@@ -2,43 +2,39 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
-use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
-use Spatie\Html\Elements\Span;
 
 /**
- * Class CheckBox
- *
- * @package MarvinLabs\Html\Bootstrap\Elements
- *
- *          A custom checkbox. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
+ * A custom checkbox. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
  *
  * <div class="custom-control custom-checkbox">
  *   <input type="checkbox" class="custom-control-input" id="customCheck1">
  *   <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
  * </div>
  */
-class CheckBox extends Div
+class CheckBox extends ControlWrapper
 {
-    use WrapsFormControl, Assemblable;
-
     /** @var  string|null */
     private $value;
 
     /** @var  string|null */
     private $description;
 
+    /** @var boolean */
+    private $inline = false;
+
     public function __construct($formState)
     {
-        parent::__construct();
-
-        $this->control = (new Input($formState))->type('checkbox');
+        parent::__construct(
+            (new Input($formState))->type('checkbox'),
+            ['custom-control', 'custom-checkbox']);
     }
 
-    /** @return static */
-    public function description(string $text)
+    /**
+     * @param string|null $text
+     * @return static
+     */
+    public function description($text)
     {
         $element = clone $this;
         $element->description = $text;
@@ -46,11 +42,26 @@ class CheckBox extends Div
         return $element;
     }
 
-    /** @return static */
-    public function value(string $value)
+    /**
+     * @param string|null $value
+     * @return static
+     */
+    public function value($value)
     {
         $element = clone $this;
         $element->value = $value;
+
+        return $element;
+    }
+
+    /**
+     * @param bool $inline
+     * @return static
+     */
+    public function inline($inline = true)
+    {
+        $element = clone $this;
+        $element->inline = $inline;
 
         return $element;
     }
@@ -63,53 +74,43 @@ class CheckBox extends Div
     public function checked($isChecked = true)
     {
         $element = clone $this;
-        $element->control = $isChecked
-            ? $element->control->attribute('checked', 'checked')
-            : $element->control->forgetAttribute('checked');
-
-        return $element;
+        return $isChecked
+            ? $element->controlAttribute('checked', 'checked')
+            : $element->forgetControlAttribute('checked');
     }
 
+    /**
+     * @param bool $disabled
+     *
+     * @return static
+     */
     public function disabled($disabled = true)
     {
         $element = clone $this;
-        $element->control = $disabled
-            ? $element->control->attribute('disabled', 'disabled')
-            : $element->control->forgetAttribute('disabled');
-
-        return $element;
+        return $disabled
+            ? $element->controlAttribute('disabled', 'disabled')
+            : $element->forgetControlAttribute('disabled');
     }
 
-    /** @Override */
-    protected function assemble()
+    protected function wrapControl()
     {
-        if ($this->control === null)
-        {
-            return $this;
-        }
-
         $element = clone $this;
-
-        // Input field
-        if ($element->control !== null)
-        {
-            $element = $element->addChild(
-                $this->control
-                    ->addClass('custom-control-input')
-                    ->value($this->value ?? '1'));
-        }
+        $element = $element->addChild(
+            $this->control
+                ->addClass('custom-control-input')
+                ->value($this->value ?? '1'));
 
         // Label
         if ($this->description !== null)
         {
             $element = $element->addChild(
                 Label::create()
-                     ->for($this->control->getAttribute('id'))
+                     ->for($this->getControlAttribute('id'))
                      ->text($this->description)
                      ->addClass('custom-control-label'));
         }
 
-        return $element->addClass(['custom-control', 'custom-checkbox']);
+        return $element->addClassIf($this->inline, 'custom-control-inline');
     }
 
 }

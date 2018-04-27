@@ -2,21 +2,18 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Span;
 
 /**
- * Class InputGroup
- * @package MarvinLabs\Html\Bootstrap\Elements
+ * Allows adding stuff on either side of a textual input field.
  *
- *          Allows adding stuff on either side of a textual input field
+ * See https://getbootstrap.com/docs/4.1/components/input-group/
  */
-class InputGroup extends Div
+class InputGroup extends ControlWrapper
 {
-    use WrapsFormControl, Assemblable, SizableComponent;
+    use SizableComponent;
 
     // Used by SizableComponent
     protected $sizableClass = 'input-group';
@@ -27,16 +24,9 @@ class InputGroup extends Div
     /** @var array */
     private $suffixes = [];
 
-    /**
-     * InputGroup constructor.
-     *
-     * @param \Spatie\Html\BaseElement $control
-     */
     public function __construct($control = null)
     {
-        parent::__construct();
-
-        $this->control = $control;
+        parent::__construct($control, ['input-group']);
     }
 
     /**
@@ -87,26 +77,14 @@ class InputGroup extends Div
         return $element;
     }
 
-    /** @Override */
-    protected function assemble()
+    protected function wrapControl()
     {
-        if ($this->control === null)
-        {
-            return $this;
-        }
-
         $element = clone $this;
         $element = $element->assembleAddons($this->prefixes, 'input-group-prepend');
-
-        // Control
-        if ($this->control !== null)
-        {
-            $element = $element->addChild($this->control);
-        }
-
+        $element = $element->addChild($this->control);
         $element = $element->assembleAddons($this->suffixes, 'input-group-append');
 
-        return $element->addClass('input-group');
+        return $element;
     }
 
     /**
@@ -125,24 +103,25 @@ class InputGroup extends Div
         }
 
         $div = Div::create()
-            ->addClass($addonContainerClass)
-            ->addChildren($addons, function ($token) {
-                $content = $token['content'] ?? '';
-                $plainText = $token['plaintext'] ?? true;
+                  ->addClass($addonContainerClass)
+                  ->addChildren($addons,
+                      function ($token) {
+                          $content = $token['content'] ?? '';
+                          $plainText = $token['plaintext'] ?? true;
 
-                // When not instructed to treat as plain text, use it directly
-                if ( !$plainText)
-                {
-                    return $content;
-                }
+                          // When not instructed to treat as plain text, use it directly
+                          if (!$plainText)
+                          {
+                              return $content;
+                          }
 
-                // When instructed to use as plain text, we wrap inside a span
-                $span = Span::create()->addClass('input-group-text');
+                          // When instructed to use as plain text, we wrap inside a span
+                          $span = Span::create()->addClass('input-group-text');
 
-                return \is_string($content)
-                    ? $span->text($content)
-                    : $span->addChild($content);
-            });
+                          return \is_string($content)
+                              ? $span->text($content)
+                              : $span->addChild($content);
+                      });
 
         return $this->addChild($div);
     }

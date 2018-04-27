@@ -43,6 +43,7 @@ trait BuildsForms
      *   - inline     => bool    Shall we render an inline form (Bootstrap specific)
      *   - model      => mixed   The model to bind to the form
      *   - hideErrors => bool    Hide field errors
+     *   - attributes => array   Attributes to set on the form element
      *
      * @return \Illuminate\Contracts\Support\Htmlable
      * @throws \Exception When trying to open a form before closing the previous one
@@ -89,6 +90,7 @@ trait BuildsForms
             ->method($method)
             ->action($action)
             ->addClassIf($options['inline'] ?? false, 'form-inline')
+            ->attributesIf($options['attributes'] ?? false, $options['attributes'] ?? [])
             ->open();
     }
 
@@ -179,7 +181,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description);
     }
 
@@ -214,7 +216,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description)
             ->checked($isChecked);
     }
@@ -233,7 +235,7 @@ trait BuildsForms
 
         return $element
             ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name) . '_wrapper')
+            ->idIf($name, field_name_to_id($name, 'wrapper'))
             ->description($description)
             ->checked($isChecked);
     }

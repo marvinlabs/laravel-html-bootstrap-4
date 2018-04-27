@@ -41,17 +41,19 @@ if ( !function_exists('field_name_to_id'))
      * separators accepted with ID strings.
      *
      * @param string $name
+     * @param string $suffix
      *
      * @return string
      */
-    function field_name_to_id($name)
+    function field_name_to_id($name, $suffix = '')
     {
         if (empty($name))
         {
             return $name;
         }
 
-        return str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $name);
+        $out = str_replace(['.', '[]', '[', ']'], ['_', '', '.', ''], $name);
+        return empty($suffix) ? $out : "${out}_${suffix}";
     }
 }
 
