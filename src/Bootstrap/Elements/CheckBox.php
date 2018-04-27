@@ -76,15 +76,10 @@ class CheckBox extends ControlWrapper
     protected function wrapControl()
     {
         $element = clone $this;
-
-        // Input field
-        if ($element->control !== null)
-        {
-            $element = $element->addChild(
-                $this->control
-                    ->addClass('custom-control-input')
-                    ->value($this->value ?? '1'));
-        }
+        $element = $element->addChild(
+            $this->control
+                ->addClass('custom-control-input')
+                ->value($this->value ?? '1'));
 
         // Label
         if ($this->description !== null)
