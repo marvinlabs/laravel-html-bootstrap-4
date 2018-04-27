@@ -3,8 +3,6 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
 use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 
@@ -15,10 +13,8 @@ use Spatie\Html\Elements\Label;
  *
  *          Wraps a control, label, errors on that field, etc.
  */
-class FormGroup extends Div
+class FormGroup extends ControlWrapper
 {
-    use WrapsFormControl, Assemblable;
-
     /** @var  \MarvinLabs\Html\Bootstrap\Contracts\FormState */
     private $formState;
 
@@ -36,10 +32,8 @@ class FormGroup extends Div
      */
     public function __construct($formState, $control = null)
     {
-        parent::__construct();
-
+        parent::__construct($control, ['form-group']);
         $this->formState = $formState;
-        $this->control = $control;
     }
 
     /**
@@ -122,37 +116,25 @@ class FormGroup extends Div
         // Add a class to ourselves, to the control wrapper and to the label
         $element = $element->addClass('row');
 
-        if ($element->controlWrapper === null)
-        {
-            $element->controlWrapper = Div::create();
-        }
+        $element->controlWrapper = $element->controlWrapper ?? Div::create();
         $element->controlWrapper = $element->controlWrapper->addClass($rowConfig['control_wrapper'] ?? []);
 
-        if ($element->label === null)
-        {
-            $element = $element->label('', true);
-        }
+        $element->label = $element->label ?? $element->label('', true)->label;
         $element->label = $element->label->addClass($rowConfig['label'] ?? []);
 
         return $element;
     }
 
-    /** @Override */
-    protected function assemble()
+    protected function wrapControl()
     {
-        if ($this->control === null)
-        {
-            return $this;
-        }
-
         $element = clone $this;
 
-        $fieldName = $element->control->getAttribute('name');
+        $fieldName = $element->getControlAttribute('name');
         $fieldId = field_name_to_id($fieldName);
         $helpTextId = field_name_to_id($fieldName) . '_helptext';
 
         // Label
-        if (null !== $element->label)
+        if ( $element->label !== null)
         {
             $element = $element->addChild($element->label->for($fieldId));
         }
@@ -203,7 +185,7 @@ class FormGroup extends Div
                 ->addChildIf($errorElement !== null, $errorElement);
         }
 
-        return $element->addClass('form-group');
+        return $element;
     }
 
 }

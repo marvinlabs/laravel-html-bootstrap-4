@@ -2,6 +2,11 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.3.0 - 2018/04/27
+
+- Allow calling a function on each radio control of a group (#31)
+- Various small bug fixes
+
 ## 1.2.0 - 2018/04/27
 
 - Offer access to direct attributes of wrapped controls (#28)

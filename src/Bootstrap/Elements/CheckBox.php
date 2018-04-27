@@ -55,6 +55,14 @@ class CheckBox extends ControlWrapper
     }
 
     /**
+     * @return null|string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
      * @param bool $inline
      * @return static
      */
@@ -95,22 +103,22 @@ class CheckBox extends ControlWrapper
     protected function wrapControl()
     {
         $element = clone $this;
-        $element = $element->addChild(
-            $this->control
-                ->addClass('custom-control-input')
-                ->value($this->value ?? '1'));
+        $element->control = $element->control
+            ->addClass('custom-control-input')
+            ->value($element->value ?? '1');
+        $element = $element->addChild($element->control);
 
         // Label
         if ($this->description !== null)
         {
             $element = $element->addChild(
                 Label::create()
-                     ->for($this->getControlAttribute('id'))
-                     ->text($this->description)
+                     ->for($element->getControlAttribute('id'))
+                     ->text($element->description)
                      ->addClass('custom-control-label'));
         }
 
-        return $element->addClassIf($this->inline, 'custom-control-inline');
+        return $element->addClassIf($element->inline, 'custom-control-inline');
     }
 
 }
