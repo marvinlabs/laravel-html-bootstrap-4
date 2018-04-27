@@ -2,9 +2,6 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
-use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
-use MarvinLabs\Html\Bootstrap\Elements\Traits\WrapsFormControl;
-use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Label;
 
 /**
@@ -15,21 +12,22 @@ use Spatie\Html\Elements\Label;
  *   <label class="custom-file-label" for="customFile">Seleccionar archivo</label>
  * </div>
  */
-class CustomFile extends Div
+class CustomFile extends ControlWrapper
 {
-    use WrapsFormControl, Assemblable;
-
     /** @var  string|null */
     private $description;
 
     public function __construct($formState)
     {
-        parent::__construct();
-
-        $this->control = (new Input($formState))->type('file');
+        parent::__construct(
+            (new Input($formState))->type('file'),
+            ['custom-file']);
     }
 
-    /** @return static */
+    /**
+     * @param string|null $text
+     * @return static
+     */
     public function description($text)
     {
         $element = clone $this;
@@ -38,32 +36,19 @@ class CustomFile extends Div
         return $element;
     }
 
-    /** @Override */
-    protected function assemble()
+    protected function wrapControl()
     {
-        if ($this->control === null)
-        {
-            return $this;
-        }
-
         $element = clone $this;
-
-        // Input field (hidden by CSS)
-        if ($element->control !== null)
-        {
-            $element = $element->addChild(
-                $this->control
-                    ->addClass('custom-file-input'));
-        }
+        $element = $element->addChild($this->control);
 
         // Label
         $element = $element->addChild(
             Label::create()
-                 ->for($this->control->getAttribute('id'))
+                 ->for($this->getControlAttribute('id'))
                  ->text($this->description ?? '')
                  ->addClass('custom-file-label'));
 
-        return $element->addClass('custom-file');
+        return $element;
     }
 
 }
