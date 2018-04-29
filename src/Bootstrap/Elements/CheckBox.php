@@ -114,7 +114,7 @@ class CheckBox extends ControlWrapper
             $element = $element->addChild(
                 Label::create()
                      ->for($element->getControlAttribute('id'))
-                     ->text($element->description)
+                     ->html($element->description)
                      ->addClass('custom-control-label'));
         }
 
