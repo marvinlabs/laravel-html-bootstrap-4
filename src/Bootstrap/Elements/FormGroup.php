@@ -157,7 +157,6 @@ class FormGroup extends ControlWrapper
 
         // Error messages
         $errorElement = null;
-        $addErrorAsControlChild = false;
         if ($element->formState !== null && !$element->formState->shouldHideErrors())
         {
             $error = $element->formState->getFieldError($fieldName);
@@ -167,13 +166,13 @@ class FormGroup extends ControlWrapper
                                    ->addClass(['invalid-feedback'])
                                    ->text($error);
             }
-
-            $addErrorAsControlChild = is_a($controlElement, ShowsErrors::class);
         }
 
-        if ($addErrorAsControlChild)
+        $errorHasBeenAppended = false;
+        if (is_a($controlElement, ShowsErrors::class))
         {
             $controlElement = $controlElement->showError($errorElement);
+            $errorHasBeenAppended = true;
         }
 
         // Wrap it all up
@@ -182,7 +181,7 @@ class FormGroup extends ControlWrapper
             $element->controlWrapper = $element->controlWrapper
                 ->addChildIf($controlElement !== null, $controlElement)
                 ->addChildIf($helpTextElement !== null, $helpTextElement)
-                ->addChildIf($errorElement !== null && !$addErrorAsControlChild, $errorElement);
+                ->addChildIf($errorElement !== null && !$errorHasBeenAppended, $errorElement);
 
             $element = $element->addChild($element->controlWrapper);
         }
@@ -191,7 +190,7 @@ class FormGroup extends ControlWrapper
             $element = $element
                 ->addChildIf($controlElement !== null, $controlElement)
                 ->addChildIf($helpTextElement !== null, $helpTextElement)
-                ->addChildIf($errorElement !== null && !$addErrorAsControlChild, $errorElement);
+                ->addChildIf($errorElement !== null && !$errorHasBeenAppended, $errorElement);
         }
 
         return $element;
