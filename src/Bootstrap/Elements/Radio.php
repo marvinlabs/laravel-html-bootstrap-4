@@ -34,7 +34,7 @@ class Radio extends ControlWrapper
      * @param string|null $text
      * @return static
      */
-    public function description(string $text)
+    public function description($text)
     {
         $element = clone $this;
         $element->description = $text;
@@ -46,7 +46,7 @@ class Radio extends ControlWrapper
      * @param string|null $value
      * @return static
      */
-    public function value(string $value)
+    public function value($value)
     {
         $element = clone $this;
         $element->value = $value;
