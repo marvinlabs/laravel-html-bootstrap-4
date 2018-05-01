@@ -40,6 +40,14 @@ And optionally register an alias for the facade.
 ];
 ```
 
+## Documentation
+
+Documentation is still a work in progress. You are welcome to help document features if you 
+want to contribute.
+
+- [Forms](docs/forms.md)
+- [Input groups](docs/input-groups.md)
+
 ## Usage
 
 Depending on the component, you will either need to call some methods or use Blade components.
