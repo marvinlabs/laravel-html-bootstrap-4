@@ -5,6 +5,7 @@ namespace MarvinLabs\Html\Bootstrap\Elements;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Disablable;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\SizableComponent;
+use Spatie\Html\Elements\Option;
 use Spatie\Html\Elements\Select as BaseSelect;
 
 /**
@@ -24,6 +25,21 @@ class Select extends BaseSelect
     {
         parent::__construct();
         $this->formState = $formState;
+    }
+
+    /**
+     * @param string|null $text
+     *
+     * @return static
+     */
+    public function placeholder($text, $placeholderValue = null)
+    {
+        return $this->prependChild(
+            Option::create()
+                  ->value($placeholderValue)
+                  ->text($text)
+                  ->selectedIf(! $this->hasSelection())
+        );
     }
 
     /** @Override */

@@ -13,7 +13,21 @@
 ```$php
 {{ bs()->select('countries', ['FR' => 'France', 'S' => 'Sweden', 'P' => 'Portugal'])
        ->multiple()
-       ->value(['P', 'FR']}}
+       ->value(['P', 'FR']) }}
+```
+
+## Placeholder
+
+```$php
+{{ bs()->select('country', ['FR' => 'France', 'S' => 'Sweden', 'P' => 'Portugal'])
+       ->placeholder('Sélectionnez un pays') }}
+```
+
+You can set a custom value for the placeholder option too
+
+```$php
+{{ bs()->select('country', ['FR' => 'France', 'S' => 'Sweden', 'P' => 'Portugal'])
+       ->placeholder('Sélectionnez un pays', -1) }}
 ```
 
 ## Disabled
