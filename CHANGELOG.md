@@ -5,7 +5,7 @@ All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented 
 ## 1.4.0 - 2018/05/01
 
 - Brand new documentation pages.
-- 
+- Error inserted twice in the DOM for radio/checkbox (#38)
 
 ## 1.3.1 - 2018/04/27
 
