@@ -23,6 +23,9 @@ abstract class ControlWrapper extends Div implements ShowsErrors
     /** @var array */
     protected $delegatedControlAttributes;
 
+    /** @var \Spatie\Html\BaseElement */
+    protected $error = null;
+
     public function __construct($control,
                                 array $initialClasses = [],
                                 array $delegatedControlAttributes = ['name', 'disabled'])
@@ -84,7 +87,9 @@ abstract class ControlWrapper extends Div implements ShowsErrors
         if ($error===null ) return $this;
 
         $element = clone $this;
-        return $element->addChild($error);
+        $element->error = $error;
+
+        return $element;
     }
 
     protected function assemble()
@@ -95,7 +100,10 @@ abstract class ControlWrapper extends Div implements ShowsErrors
         }
 
         $element = $this->wrapControl();
-        $element = $element->addChildren($this->children);
+
+        if ($element->error!==null) {
+            $element = $element->addChildren($element->error);
+        }
 
         return $element->addClass($this->initialClasses);
     }
