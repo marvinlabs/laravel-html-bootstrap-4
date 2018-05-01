@@ -8,6 +8,14 @@
 {{ bs()->select('country', ['FR' => 'France', 'S' => 'Sweden', 'P' => 'Portugal'], 'P') }}
 ```
 
+## Multiple select
+
+```$php
+{{ bs()->select('countries', ['FR' => 'France', 'S' => 'Sweden', 'P' => 'Portugal'])
+       ->multiple()
+       ->value(['P', 'FR']}}
+```
+
 ## Disabled
 
 ```$php

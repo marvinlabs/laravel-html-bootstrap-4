@@ -2,6 +2,11 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.4.0 - 2018/05/01
+
+- Brand new documentation pages.
+- 
+
 ## 1.3.1 - 2018/04/27
 
 - Validation errors are now showing properly on custom checkboxes / files / radios / radio groups
