@@ -45,8 +45,7 @@ And optionally register an alias for the facade.
 Documentation is still a work in progress. You are welcome to help document features if you 
 want to contribute.
 
-- [Forms](docs/forms.md)
-- [Input groups](docs/input-groups.md)
+- [Documentation root](/docs)
 
 ## Usage
 
@@ -60,16 +59,6 @@ Components based on Blade can fully be overridden. You will need to publish the 
 ```bash
 php artisan vendor:publish --provider="MarvinLabs\Html\Bootstrap\BootstrapServiceProvider" --tag="views"
 ``` 
-
-- [Alerts](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/alert.blade.php)
-- [Jumbotron](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/jumbotron.blade.php)
-
-### Programmatic calls
-
-- [Badges](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/badge.blade.php)
-- [Buttons](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/button.blade.php)
-- [Forms](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/form.blade.php)
-- [Progress](https://github.com/marvinlabs/laravel-workbench/blob/master/resources/views/laravel-html-bootstrap-4/progress.blade.php)
 
 ## Translations
 
