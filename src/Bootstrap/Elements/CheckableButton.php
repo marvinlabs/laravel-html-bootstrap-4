@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use Spatie\Html\BaseElement;
 use Spatie\Html\Elements\Label;
 
 /**
@@ -10,13 +11,13 @@ use Spatie\Html\Elements\Label;
 abstract class CheckableButton extends ControlWrapper
 {
     /** @var  string|null */
-    private $value;
+    protected $value;
 
     /** @var  string|null */
-    private $description;
+    protected $description;
 
     /** @var boolean */
-    private $inline = false;
+    protected $inline = false;
 
     public function __construct($formState, $controlType)
     {
@@ -127,11 +128,7 @@ abstract class CheckableButton extends ControlWrapper
         return $element->addClassIf($element->inline, 'custom-control-inline');
     }
 
-    /**
-     * @param $element
-     * @return string
-     */
-    protected function controlId($element): string
+    protected function controlId(BaseElement $element): string
     {
         return \field_name_to_id($element->getAttribute('name'));
     }

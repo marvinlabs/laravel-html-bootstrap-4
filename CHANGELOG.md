@@ -2,6 +2,10 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.5.1 - 2018/05/03
+
+- Fix radio button generated ID
+
 ## 1.5.0 - 2018/05/01
 
 - Allow setting the placeholder option value for selects
