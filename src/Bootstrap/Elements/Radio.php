@@ -2,6 +2,8 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use Spatie\Html\BaseElement;
+
 /**
  * A custom radio. See https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios-1
  *
@@ -18,13 +20,9 @@ class Radio extends CheckableButton
         parent::__construct($formState, 'radio');
     }
 
-    /**
-     * @param $element
-     * @return string
-     */
-    protected function controlId($element): string
+    protected function controlId(BaseElement $element): string
     {
-        return \field_name_to_id($element->getAttribute('name')) . '_' . ($element->value ?? '1');
+        return \field_name_to_id($element->getAttribute('name') . '_' . ($element->value ?? '1'));
     }
 
 }
