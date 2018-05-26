@@ -55,21 +55,30 @@ class FormState implements FormStateContract
         return $this->oldInput->get($name, $default);
     }
 
+    public static function getSafeName($name)
+    {
+        $name = str_replace('[', '.', $name);
+        $name = str_replace(']', '', $name);
+
+        return $name;
+    }
+
     public function hasFieldErrors($name): bool
     {
-        $all = $this->errors->all($name);
+
+        $all = $this->errors->all(self::getSafeName($name));
 
         return !empty($all);
     }
 
     public function getFieldErrors($name)
     {
-        return $this->errors->all($name);
+        return $this->errors->all(self::getSafeName($name));
     }
 
     public function getFieldError($name)
     {
-        return $this->errors->first($name);
+        return $this->errors->first(self::getSafeName($name));
     }
 
     public function setHideErrors($shouldHideErrors)
