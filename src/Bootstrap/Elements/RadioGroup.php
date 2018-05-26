@@ -150,7 +150,7 @@ class RadioGroup extends Div implements ShowsErrors
             ->addChildren($radios,
                 function ($radio) {
                     return $radio
-                         ->checked($this->getFieldValue($this->name, $this->selectedOption) == $radio->getValue())
+                        ->checked($this->getFieldValue($this->name, $this->selectedOption === $radio->getValue()))
                         ->name($this->name)
                         ->inline($this->inline);
                 })
