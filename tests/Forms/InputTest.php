@@ -71,4 +71,28 @@ class InputTest extends HtmlTestCase
         $this->assertContains('with <a href="#">html</a> 2', $html);
         $this->assertNotContains('&quot;', $html); // does not contain encoded html
     }
+
+    /**
+     * @test
+     */
+    public function radio_group_accepts_loose_comparisons_for_checked_state()
+    {
+        $this->openFakeForm();
+
+        $options = [
+            1 => '1',
+            2 => '2',
+        ];
+
+        $html = bs()->radioGroup('name', $options)->selectedOption(2)->render()->toHtml();
+        $this->assertContains('checked="checked" name="name" id="name_2" value="2"', $html);
+        $this->assertNotContains('checked="checked" name="name" id="name_1" value="1"', $html);
+
+        $html = bs()->radioGroup('name', $options)->selectedOption(1)->render()->toHtml();
+        $this->assertContains('checked="checked" name="name" id="name_1" value="1"', $html);
+        $this->assertNotContains('checked="checked" name="name" id="name_2" value="2"', $html);
+
+        $html = bs()->radioGroup('name', $options)->selectedOption('2')->render()->toHtml();
+        $this->assertContains('checked="checked" name="name" id="name_2" value="2"', $html);
+    }
 }
