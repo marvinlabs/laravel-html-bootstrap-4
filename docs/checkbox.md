@@ -32,6 +32,20 @@
        ->description('I have read the <a href="#">terms of use</a>') }}
 ```
 
+### Checkboxes with name representing an array of options
+
+```$php
+{{ bs()->checkbox('hobbies[]')->id('hobby_ski')->description('Skiing') }}
+{{ bs()->checkbox('hobbies[]')->id('hobby_surf')->description('Surfing') }}
+{{ bs()->checkbox('hobbies[]')->id('hobby_dive')->description('Diving') }}
+```
+
+```$php
+{{ bs()->checkbox('frameworks[laravel]')->description('Laravel') }}
+{{ bs()->checkbox('frameworks[symfony]')->description('Symfony') }}
+{{ bs()->checkbox('frameworks[cakephp]')->description('CakePHP') }}
+```
+
 ## Wrapped inside a form group
 
 It can be wrapped inside a form group if needed (to show errors for instance).
