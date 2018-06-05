@@ -2,6 +2,13 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
+## 1.6.0 - 2018/06/05
+
+- Fix: Unable to change checkbox input id (#43)
+- Fix: Handling of names with [] inside (#39, #40)
+
+Thanks a lot to @benkelukas, @RTC1 for their PR which helped fix this.
+
 ## 1.5.1 - 2018/05/03
 
 - Fix radio button generated ID
