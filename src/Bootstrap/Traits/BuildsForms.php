@@ -355,10 +355,11 @@ trait BuildsForms
      * @param bool   $outlined
      *
      * @return \MarvinLabs\Html\Bootstrap\Elements\Button
+     * @throws \Spatie\Html\Exceptions\InvalidHtml
      */
     public function button($text, $variant = 'secondary', $outlined = false): Button
     {
-        return Button::create()->variant($variant, $outlined)->text($text);
+        return Button::create()->variant($variant, $outlined)->html($text);
     }
 
     /**
