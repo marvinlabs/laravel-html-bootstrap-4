@@ -8,6 +8,7 @@ use MarvinLabs\Html\Bootstrap\Contracts\OldFormInputProvider;
 
 /**
  * Class FormState
+ *
  * @package MarvinLabs\Html\Bootstrap\Forms
  */
 class FormState implements FormStateContract
@@ -45,6 +46,8 @@ class FormState implements FormStateContract
 
     public function getFieldValue($name, $default = null)
     {
+        $name = $this->fieldNameToErrorKey($name);
+
         // If there's no default value provided, and the html builder currently
         // has a model assigned, try to retrieve a value from the model.
         if (empty($default) && $this->model !== null)
@@ -57,19 +60,19 @@ class FormState implements FormStateContract
 
     public function hasFieldErrors($name): bool
     {
-        $all = $this->errors->all($name);
+        $all = $this->errors->all($this->fieldNameToErrorKey($name));
 
         return !empty($all);
     }
 
     public function getFieldErrors($name)
     {
-        return $this->errors->all($name);
+        return $this->errors->all($this->fieldNameToErrorKey($name));
     }
 
     public function getFieldError($name)
     {
-        return $this->errors->first($name);
+        return $this->errors->first($this->fieldNameToErrorKey($name));
     }
 
     public function setHideErrors($shouldHideErrors)
@@ -80,5 +83,15 @@ class FormState implements FormStateContract
     public function shouldHideErrors(): bool
     {
         return $this->shouldHideErrors;
+    }
+
+    private function fieldNameToErrorKey($name)
+    {
+        if (empty($name))
+        {
+            return $name;
+        }
+
+        return str_replace(['[]', '[', ']'], ['', '.', ''], $name);
     }
 }

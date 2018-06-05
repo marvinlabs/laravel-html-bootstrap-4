@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Tests\Forms;
 
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
+use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Tests\HtmlTestCase;
 
 class FormGroupTest extends HtmlTestCase
@@ -28,15 +29,14 @@ class FormGroupTest extends HtmlTestCase
     public function old_input_value_is_shown_before_user_default()
     {
         // Arrange
-        $state = $this->fakeFormState([], ['username' => 'john']);
+        $this->openFakeForm([], ['username' => 'john']);
 
         // Act
-        $formGroup = new FormGroup($state);
-        $html = $formGroup
-            ->control(bs()->text('username'))
-            ->render()->toHtml();
+        $html = bs()->formGroup()
+                    ->control(bs()->text('username', 'Jane'))
+                    ->render()->toHtml();
 
         // Assert
-        $this->assertContains('Username is required.', $html);
+        $this->assertContains('value="john"', $html);
     }
 }
