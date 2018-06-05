@@ -110,8 +110,12 @@ abstract class CheckableButton extends ControlWrapper
         $element = clone $this;
         $element->control = $element->control
             ->addClass('custom-control-input')
-            ->value($element->value ?? '1')
-            ->id($this->controlId($element));
+            ->value($element->value ?? '1');
+
+        if ($element->control->getAttribute('id')===null)
+        {
+            $element->control = $element->control->id($this->controlId($element));
+        }
 
         $element = $element->addChild($element->control);
 
