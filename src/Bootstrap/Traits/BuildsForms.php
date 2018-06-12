@@ -16,7 +16,6 @@ use MarvinLabs\Html\Bootstrap\Elements\RadioGroup;
 use MarvinLabs\Html\Bootstrap\Elements\Select;
 use MarvinLabs\Html\Bootstrap\Elements\TextArea;
 use RuntimeException;
-use Spatie\Html\Elements\Div;
 use Spatie\Html\Elements\Form;
 
 /**
@@ -360,6 +359,11 @@ trait BuildsForms
     public function button($text, $variant = 'secondary', $outlined = false): Button
     {
         return Button::create()->variant($variant, $outlined)->html($text);
+    }
+
+    protected function getFormState(): FormState
+    {
+        return $this->formState;
     }
 
     /**
