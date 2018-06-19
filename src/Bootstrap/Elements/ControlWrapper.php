@@ -105,7 +105,7 @@ abstract class ControlWrapper extends Div implements ShowsErrors
         if ($element->control->getAttribute('id') === null)
         {
             $element->control = $element->control
-                ->setAttribute('id', \field_name_to_id($element->control->getAttribute('name')));
+                ->attribute('id', \field_name_to_id($element->control->getAttribute('name')));
         }
 
         if ($element->error !== null)

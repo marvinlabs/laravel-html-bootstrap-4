@@ -2,7 +2,7 @@
 
 All notable changes to `marvinlabs/laravel-html-bootstrap-4` will be documented in this file.
 
-## 1.6.2 - 2018/06/19
+## 1.6.3 - 2018/06/19
 
 - Fix: Fix radio button group ID generation when not overridden
 
