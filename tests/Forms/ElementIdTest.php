@@ -28,7 +28,6 @@ class InputTest extends HtmlTestCase
 
         \collect($controls)->each(function($ctrl) {
             $html = $ctrl->render()->toHtml();
-            dump($html);
             $this->assertContains('id="special_id"', $html);
         });
     }

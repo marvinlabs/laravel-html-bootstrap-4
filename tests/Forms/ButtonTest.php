@@ -18,6 +18,5 @@ class ButtonTest extends HtmlTestCase
         $html = bs()->button('<i class="fa fa-fw fa-plus"></i> Add file')->render()->toHtml();
         $this->assertContains('<i class="fa fa-fw fa-plus"></i> Add file', $html);
         $this->assertNotContains('&quot;', $html); // does not contain encoded html
-
     }
 }

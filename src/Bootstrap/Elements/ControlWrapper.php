@@ -62,9 +62,7 @@ abstract class ControlWrapper extends Div implements ShowsErrors
     public function name($name)
     {
         $element = clone $this;
-        $element->control = $this->control
-            ->nameIf($name, $name)
-            ->idIf($name, field_name_to_id($name));
+        $element->control = $this->control->nameIf($name, $name);
 
         return $element;
     }
@@ -84,7 +82,10 @@ abstract class ControlWrapper extends Div implements ShowsErrors
 
     public function showError($error)
     {
-        if ($error===null ) return $this;
+        if ($error === null)
+        {
+            return $this;
+        }
 
         $element = clone $this;
         $element->error = $error;
@@ -101,14 +102,21 @@ abstract class ControlWrapper extends Div implements ShowsErrors
 
         $element = $this->wrapControl();
 
-        if ($element->error!==null) {
+        if ($element->control->getAttribute('id') === null)
+        {
+            $element->control = $element->control
+                ->setAttribute('id', \field_name_to_id($element->control->getAttribute('name')));
+        }
+
+        if ($element->error !== null)
+        {
             $element = $element->addChildren($element->error);
         }
 
         return $element->addClass($this->initialClasses);
     }
 
-    protected abstract function wrapControl();
+    abstract protected function wrapControl();
 
     public function __call($name, $arguments)
     {

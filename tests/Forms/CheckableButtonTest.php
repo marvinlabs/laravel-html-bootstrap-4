@@ -41,9 +41,7 @@ class CheckableButtonTest extends HtmlTestCase
         $this->assertNotContains('&quot;', $html); // does not contain encoded html
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function radio_group_accepts_loose_comparisons_for_checked_state()
     {
         $this->openFakeForm();
@@ -54,14 +52,32 @@ class CheckableButtonTest extends HtmlTestCase
         ];
 
         $html = bs()->radioGroup('name', $options)->selectedOption(2)->render()->toHtml();
-        $this->assertContains('checked="checked" name="name" id="name_2" value="2"', $html);
-        $this->assertNotContains('checked="checked" name="name" id="name_1" value="1"', $html);
+        $this->assertHtmlTagWithAttributes(
+            ['id' => 'name_2', 'value' => '2', 'checked' => 'checked',],
+            'input#name_2',
+            $html);
+        $this->assertHtmlHasNot('input#name_1[checked=checked]', $html);
 
         $html = bs()->radioGroup('name', $options)->selectedOption(1)->render()->toHtml();
-        $this->assertContains('checked="checked" name="name" id="name_1" value="1"', $html);
-        $this->assertNotContains('checked="checked" name="name" id="name_2" value="2"', $html);
+        $this->assertHtmlTagWithAttributes(
+            ['id' => 'name_1', 'value' => '1', 'checked' => 'checked',],
+            'input#name_1',
+            $html);
+        $this->assertHtmlHasNot('input#name_2[checked=checked]', $html);
 
         $html = bs()->radioGroup('name', $options)->selectedOption('2')->render()->toHtml();
-        $this->assertContains('checked="checked" name="name" id="name_2" value="2"', $html);
+        $this->assertHtmlTagWithAttributes(
+            ['id' => 'name_2', 'value' => '2', 'checked' => 'checked',],
+            'input#name_2',
+            $html);
+        $this->assertHtmlHasNot('input#name_1[checked=checked]', $html);
+    }
+
+    /** @test */
+    public function radio_id_is_properly_generated_according_to_value()
+    {
+        $html = bs()->radioGroup('agree_to_terms', ['y' => 'Yes', 'n' => 'No'])->render()->toHtml();
+        $this->assertHtmlHas('input#agree_to_terms_y', $html);
+        $this->assertHtmlHas('input#agree_to_terms_n', $html);
     }
 }

@@ -2,38 +2,64 @@
 
 namespace MarvinLabs\Html\Bootstrap\Tests;
 
+use Illuminate\Contracts\Support\Htmlable;
 use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Tests\Support\FakeFormState;
+use Symfony\Component\DomCrawler\Crawler;
 
 abstract class HtmlTestCase extends TestCase
 {
-    /**
-     * Fake the FormState contract
-     *
-     * @param array $errors
-     * @param array $oldInput
-     * @param null  $model
-     * @param bool  $shouldHideErrors
-     *
-     * @return \MarvinLabs\Html\Bootstrap\Tests\Support\FakeFormState
-     */
-    protected function fakeFormState($errors = [], $oldInput = [], $model = null, $shouldHideErrors = false)
+    protected function assertHtmlTagWithAttribute($expectedValue,
+                                                  string $attribute,
+                                                  string $selector,
+                                                  string $html): void
+    {
+        $crawler = new Crawler($html);
+        $this->assertEquals($expectedValue,
+            $crawler->filter($selector)->getNode(0)->getAttribute($attribute),
+            "Attribute $attribute does not have the value $expectedValue in element $selector. HTML: $html");
+    }
+
+
+    protected function assertHtmlTagWithAttributes(array $attributes,
+                                                   string $selector,
+                                                   string $html): void
+    {
+        $crawler = new Crawler($html);
+        foreach ($attributes as $attribute => $expectedValue)
+        {
+            $this->assertEquals($expectedValue,
+                $crawler->filter($selector)->getNode(0)->getAttribute($attribute),
+                "Attribute $attribute does not have the value $expectedValue in element $selector. HTML: $html");
+        }
+    }
+
+    protected function assertHtmlHas(string $selector, string $html): void
+    {
+        $crawler = new Crawler($html);
+        $this->assertNotEquals(0, $crawler->filter($selector)->count(), "$selector has not been found in HTML: $html");
+    }
+
+    protected function assertHtmlHasNot(string $selector, string $html): void
+    {
+        $crawler = new Crawler($html);
+        $this->assertEquals(0, $crawler->filter($selector)->count(), "$selector has been found in HTML: $html");
+    }
+
+    protected function fakeFormState(array $errors = [],
+                                     array $oldInput = [],
+                                     $model = null,
+                                     bool $shouldHideErrors =
+                                     false): FakeFormState
     {
         return new FakeFormState($errors, $oldInput, $model, $shouldHideErrors);
     }
 
-    /**
-     * Form must be open in order for some controls to get access to the form state
-     *
-     * @param array $errors
-     * @param array $oldInput
-     * @param null  $model
-     * @param bool  $shouldHideErrors
-     * @param array $options
-     *
-     * @return \Illuminate\Contracts\Support\Htmlable
-     */
-    protected function openFakeForm($errors = [], $oldInput = [], $model = null, $shouldHideErrors = false, $options = [])
+    protected function openFakeForm(array $errors = [],
+                                    array $oldInput = [],
+                                    $model = null,
+                                    bool $shouldHideErrors = false,
+                                    array $options = []): Htmlable
     {
         $state = $this->fakeFormState($errors, $oldInput, $model, $shouldHideErrors);
         $this->app->instance(FormState::class, $state);
