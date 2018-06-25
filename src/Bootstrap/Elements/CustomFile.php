@@ -39,7 +39,13 @@ class CustomFile extends ControlWrapper
     protected function wrapControl()
     {
         $element = clone $this;
-        $element = $element->addChild($this->control);
+
+        if ($element->control->getAttribute('id') === null)
+        {
+            $element->control = $element->control->id(\field_name_to_id($this->getControlAttribute('name')));
+        }
+
+        $element = $element->addChild($element->control);
 
         // Label
         $element = $element->addChild(
