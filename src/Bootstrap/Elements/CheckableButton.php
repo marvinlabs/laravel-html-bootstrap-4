@@ -114,7 +114,7 @@ abstract class CheckableButton extends ControlWrapper
 
         if ($element->control->getAttribute('id')===null)
         {
-            $element->control = $element->control->id(\field_name_to_id($this->getControlAttribute('name')));
+            $element->control = $element->control->id($this->controlId($element));
         }
 
         $element = $element->addChild($element->control);
