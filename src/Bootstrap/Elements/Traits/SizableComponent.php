@@ -34,7 +34,7 @@ trait SizableComponent
      * @return static
      * @throws \RuntimeException When $size does not have a valid value
      */
-    protected function size($size)
+    public function size($size)
     {
         if (!property_exists($this, 'sizableClass'))
         {
