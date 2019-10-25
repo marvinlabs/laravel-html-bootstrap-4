@@ -3,6 +3,7 @@
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
 use BadMethodCallException;
+use Illuminate\Support\Str;
 use MarvinLabs\Html\Bootstrap\Contracts\ShowsErrors;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use Spatie\Html\Elements\Div;
@@ -123,7 +124,7 @@ abstract class ControlWrapper extends Div implements ShowsErrors
         // Control setters
         foreach (['control' => '', 'forgetControl' => 'forget', 'addControl' => 'add'] as $needle => $replacement)
         {
-            if ($name !== $needle && starts_with($name, $needle))
+            if ($name !== $needle && Str::startsWith($name, $needle))
             {
                 $name = str_replace($needle, $replacement, $name);
                 if (empty($name))
@@ -148,7 +149,7 @@ abstract class ControlWrapper extends Div implements ShowsErrors
         }
 
         // Control getters
-        if (starts_with($name, 'getControl'))
+        if (Str::startsWith($name, 'getControl'))
         {
             $name = str_replace('getControl', 'get', $name);
             if (empty($name))
