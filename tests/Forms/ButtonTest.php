@@ -13,10 +13,10 @@ class ButtonTest extends HtmlTestCase
         $this->openFakeForm();
 
         $html = bs()->button('Add file')->render()->toHtml();
-        $this->assertContains('Add file', $html);
+        $this->assertStringContainsString('Add file', $html);
 
         $html = bs()->button('<i class="fa fa-fw fa-plus"></i> Add file')->render()->toHtml();
-        $this->assertContains('<i class="fa fa-fw fa-plus"></i> Add file', $html);
-        $this->assertNotContains('&quot;', $html); // does not contain encoded html
+        $this->assertStringContainsString('<i class="fa fa-fw fa-plus"></i> Add file', $html);
+        $this->assertStringNotContainsString('&quot;', $html); // does not contain encoded html
     }
 }

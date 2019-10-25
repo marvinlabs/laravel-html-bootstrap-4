@@ -19,7 +19,7 @@ class InputTest extends HtmlTestCase
             ->render()->toHtml();
 
         // Assert
-        $this->assertContains('is-invalid', $html);
+        $this->assertStringContainsString('is-invalid', $html);
     }
 
     /** @test */
@@ -33,7 +33,7 @@ class InputTest extends HtmlTestCase
             ->render()->toHtml();
 
         // Assert
-        $this->assertContains('value="john"', $html);
+        $this->assertStringContainsString('value="john"', $html);
     }
 
 }

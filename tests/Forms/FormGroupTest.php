@@ -22,7 +22,7 @@ class FormGroupTest extends HtmlTestCase
             ->render()->toHtml();
 
         // Assert
-        $this->assertContains('Username is required.', $html);
+        $this->assertStringContainsString('Username is required.', $html);
     }
 
     /** @test */
@@ -37,6 +37,6 @@ class FormGroupTest extends HtmlTestCase
                     ->render()->toHtml();
 
         // Assert
-        $this->assertContains('value="john"', $html);
+        $this->assertStringContainsString('value="john"', $html);
     }
 }

@@ -14,31 +14,31 @@ class CheckableButtonTest extends HtmlTestCase
 
         // radio inputs
         $html = bs()->radio('name', 'this description is plain text')->render()->toHtml();
-        $this->assertContains('this description is plain text', $html);
+        $this->assertStringContainsString('this description is plain text', $html);
 
         $html = bs()->radio('name', 'this description contains <a href="#">html</a>')->render()->toHtml();
-        $this->assertContains('this description contains <a href="#">html</a>', $html);
-        $this->assertNotContains('&quot;', $html); // does not contain encoded html
+        $this->assertStringContainsString('this description contains <a href="#">html</a>', $html);
+        $this->assertStringNotContainsString('&quot;', $html); // does not contain encoded html
 
         // checkbox inputs
         $html = bs()->checkBox('name', 'this description is plain text')->render()->toHtml();
-        $this->assertContains('this description is plain text', $html);
+        $this->assertStringContainsString('this description is plain text', $html);
 
         $html = bs()->checkBox('name', 'this description contains <a href="#">html</a>')->render()->toHtml();
-        $this->assertContains('this description contains <a href="#">html</a>', $html);
-        $this->assertNotContains('&quot;', $html); // does not contain encoded html
+        $this->assertStringContainsString('this description contains <a href="#">html</a>', $html);
+        $this->assertStringNotContainsString('&quot;', $html); // does not contain encoded html
 
         // radio groups
         $options = ['text only 1', 'text only 2'];
         $html = bs()->radioGroup('name', $options)->render()->toHtml();
-        $this->assertContains('text only 1', $html);
-        $this->assertContains('text only 2', $html);
+        $this->assertStringContainsString('text only 1', $html);
+        $this->assertStringContainsString('text only 2', $html);
 
         $options = ['with <a href="#">html</a> 1', 'with <a href="#">html</a> 2'];
         $html = bs()->radioGroup('name', $options)->render()->toHtml();
-        $this->assertContains('with <a href="#">html</a> 1', $html);
-        $this->assertContains('with <a href="#">html</a> 2', $html);
-        $this->assertNotContains('&quot;', $html); // does not contain encoded html
+        $this->assertStringContainsString('with <a href="#">html</a> 1', $html);
+        $this->assertStringContainsString('with <a href="#">html</a> 2', $html);
+        $this->assertStringNotContainsString('&quot;', $html); // does not contain encoded html
     }
 
     /** @test */
