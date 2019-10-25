@@ -2,6 +2,7 @@
 
 namespace MarvinLabs\Html\Bootstrap\Elements;
 
+use Illuminate\Support\Str;
 use MarvinLabs\Html\Bootstrap\Contracts\ShowsErrors;
 use MarvinLabs\Html\Bootstrap\Elements\Traits\Assemblable;
 use Spatie\Html\Elements\Div;
@@ -100,7 +101,7 @@ class RadioGroup extends Div implements ShowsErrors
         // Radio setters for all radios of the group
         foreach (['radio' => '', 'forgetRadio' => 'forget', 'addRadio' => 'add'] as $needle => $replacement)
         {
-            if ($name !== $needle && starts_with($name, $needle))
+            if ($name !== $needle && Str::startsWith($name, $needle))
             {
                 $name = str_replace($needle, $replacement, $name);
                 if (empty($name))

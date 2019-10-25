@@ -15,6 +15,6 @@ class FormTest extends HtmlTestCase
         $html = $this->openFakeForm([], [], null, false, ['files' => true]);
 
         // Assert
-        $this->assertContains('enctype="multipart/form-data"', $html->toHtml());
+        $this->assertStringContainsString('enctype="multipart/form-data"', $html->toHtml());
     }
 }

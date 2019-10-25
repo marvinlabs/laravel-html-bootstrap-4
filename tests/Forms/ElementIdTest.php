@@ -12,7 +12,7 @@ class ElementIdTest extends HtmlTestCase
     public function id_is_deduced_from_name_if_not_specified()
     {
         $html = bs()->text('username')->render()->toHtml();
-        $this->assertContains('id="username"', $html);
+        $this->assertStringContainsString('id="username"', $html);
     }
 
     /** @test */
@@ -28,7 +28,7 @@ class ElementIdTest extends HtmlTestCase
 
         \collect($controls)->each(function($ctrl) {
             $html = $ctrl->render()->toHtml();
-            $this->assertContains('id="special_id"', $html);
+            $this->assertStringContainsString('id="special_id"', $html);
         });
     }
 
@@ -36,10 +36,10 @@ class ElementIdTest extends HtmlTestCase
     public function a_name_for_an_array_is_properly_converted()
     {
         $html = bs()->text('address[]')->render()->toHtml();
-        $this->assertContains('id="address"', $html);
+        $this->assertStringContainsString('id="address"', $html);
 
         $html = bs()->text('address[city]')->render()->toHtml();
-        $this->assertContains('id="address_city"', $html);
+        $this->assertStringContainsString('id="address_city"', $html);
     }
 
 }
