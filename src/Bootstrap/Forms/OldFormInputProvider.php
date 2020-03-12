@@ -28,6 +28,6 @@ class OldFormInputProvider implements OldFormInputProviderContract
 
     public function get($key, $default = null)
     {
-        return $this->request->old(field_name_to_id($key), $default);
+        return $this->request->old($key, $default);
     }
 }
