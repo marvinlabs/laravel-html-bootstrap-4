@@ -3,7 +3,6 @@
 namespace MarvinLabs\Html\Bootstrap\Tests\Forms;
 
 use MarvinLabs\Html\Bootstrap\Elements\FormGroup;
-use MarvinLabs\Html\Bootstrap\Elements\Input;
 use MarvinLabs\Html\Bootstrap\Tests\HtmlTestCase;
 
 class FormGroupTest extends HtmlTestCase
