@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "spatie/laravel-html": "^2.19.0",
         "appstract/laravel-blade-directives": "^1.6.0",
         "illuminate/support": "^6.0|^7.0|^8.0"
