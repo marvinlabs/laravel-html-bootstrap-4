@@ -2,7 +2,6 @@
 
 namespace MarvinLabs\Html\Bootstrap\Tests\Forms;
 
-use MarvinLabs\Html\Bootstrap\Contracts\FormState;
 use MarvinLabs\Html\Bootstrap\Tests\HtmlTestCase;
 
 class InputTest extends HtmlTestCase
